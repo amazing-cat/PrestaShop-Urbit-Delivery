@@ -11,6 +11,8 @@ require_once(dirname(__FILE__) . '/../../classes/UrbitStoreApi.php');
 require_once(dirname(__FILE__) . '/../../classes/UrbitConfigurations.php');
 require_once(dirname(__FILE__) . '/../../models/UrbitCart.php');
 
+header('Content-Type', 'application/json');
+
 class UrbitShippingOptionsModuleFrontController extends FrontController
 {
     public function displayAjax()

@@ -94,12 +94,11 @@ class UrbitRateServiceCode extends ObjectModel
                 $carries[] = $value_arr[1];
             }
             // process save service
-            $services_id = implode(',', $services);
             $sql_serice = 'UPDATE `' . _DB_PREFIX_ .
               'urbit_rate_service_code` SET active=' . (($active) ? '1' : '0') .
-              ' WHERE id_urbit_rate_service_code IN (' . $services_id . ')';
+              ' WHERE id_urbit_rate_service_code IN (' . implode(',', array_map('intval', $services)) . ')';
             // process save carrie
-            $carrier_id = implode(',', $carries);
+            $carrier_id = implode(',', array_map('intval', $carries));
             $sql_carrier = 'UPDATE `' . _DB_PREFIX_ .
               'carrier` SET active=' . (($active) ? '1' : '0') .
               ' WHERE id_carrier IN (' . $carrier_id . ')';

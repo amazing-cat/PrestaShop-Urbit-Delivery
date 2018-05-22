@@ -14,6 +14,8 @@ include(dirname(__FILE__) . '/classes/api/UbitAPIWrapper.php');
 require_once(dirname(__FILE__).'../../../config/config.inc.php');
 require_once(dirname(__FILE__).'../../../init.php');
 
+header('Content-Type', 'application/json');
+
 $db = Db::getInstance();
 // ps_urbit_rate_service_code
 $data = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS("SELECT * FROM " . _DB_PREFIX_ .
@@ -147,19 +149,19 @@ if ($test_api_call) {
         $status = 0;
     }
     DB::getInstance()->Execute("UPDATE `" . _DB_PREFIX_ .
-      "carrier` SET `active`='" . $status . "' WHERE `id_carrier`='" . $data[0]['id_carrier'] . "'");
+      "carrier` SET `active`='" . (int)$status . "' WHERE `id_carrier`='" . (int)$data[0]['id_carrier'] . "'");
 
     $data_array = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS("SELECT * FROM `" . _DB_PREFIX_ .
       "urbit_configuration_data`  WHERE `urb_carrier_id`='" .
-      $data[0]['id_carrier'] . "'");
+        (int)$data[0]['id_carrier'] . "'");
     if (sizeof($data_array) > 0) {
         DB::getInstance()->Execute("UPDATE `" . _DB_PREFIX_ .
-          "urbit_configuration_data` SET `urb_it_status`='" . $module_status . "', `times_lap`='" . $module_period .
-          "'  WHERE `urb_carrier_id`='" . $data[0]['id_carrier'] . "'");
+          "urbit_configuration_data` SET `urb_it_status`='" . pSQL($module_status) . "', `times_lap`='" . pSQL($module_period) .
+          "'  WHERE `urb_carrier_id`='" . (int)$data[0]['id_carrier'] . "'");
     } else {
         DB::getInstance()->Execute("INSERT INTO `" . _DB_PREFIX_ .
           "urbit_configuration_data` (`urb_it_status`, `times_lap`, `urb_carrier_id`) VALUES ('" .
-          $module_status . "','" . $module_period . "','" . $data[0]['id_carrier'] . "')");
+          pSQL($module_status) . "','" . pSQL($module_period) . "','" . (int)$data[0]['id_carrier'] . "')");
     }
 
     echo Tools::jsonEncode("success");
@@ -256,23 +258,23 @@ if ($test_api_call) {
 } elseif ($mod && $mod == "get_default_data") {
     $form_data = array();
     $data_carr = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS("SELECT * FROM " . _DB_PREFIX_ .
-      "carrier  WHERE `id_carrier`='" . $data[0]['id_carrier'] . "'");
+      "carrier  WHERE `id_carrier`='" . (int)$data[0]['id_carrier'] . "'");
 
     if (isset($data_carr['max_width'])) {
             DB::getInstance()->Execute("UPDATE `"._DB_PREFIX_ .
               "carrier` SET `max_width` = '142', `max_height` = '142', `max_depth` = '142', `max_weight` = '10' WHERE `"
-              ._DB_PREFIX_ . "carrier`.`id_carrier`='" . $data[0]['id_carrier'] . "'");
+              ._DB_PREFIX_ . "carrier`.`id_carrier`='" . (int)$data[0]['id_carrier'] . "'");
     }
 
     $data_zone = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS("SELECT * FROM " . _DB_PREFIX_ .
-      "carrier_zone  WHERE `id_carrier`='" . $data[0]['id_carrier'] . "'");
+      "carrier_zone  WHERE `id_carrier`='" . (int)$data[0]['id_carrier'] . "'");
 
     if (sizeof($data_zone) > 1) {
         DB::getInstance()->Execute("DELETE FROM `" . _DB_PREFIX_ .
-          "carrier_zone` WHERE `" . _DB_PREFIX_ . "carrier_zone`.`id_carrier` = '" . $data[0]['id_carrier'] . "'");
+          "carrier_zone` WHERE `" . _DB_PREFIX_ . "carrier_zone`.`id_carrier` = '" . (int)$data[0]['id_carrier'] . "'");
 
         DB::getInstance()->Execute("INSERT INTO `" . _DB_PREFIX_ .
-          "carrier_zone` (`id_carrier`, `id_zone`) VALUES ('" . $data[0]['id_carrier'] . "', '1')");
+          "carrier_zone` (`id_carrier`, `id_zone`) VALUES ('" . (int)$data[0]['id_carrier'] . "', '1')");
     }
 
     $form_data['URBIT_API_CUSTOMER_KEY'] = Configuration::get('URBIT_API_CUSTOMER_KEY');
@@ -315,7 +317,7 @@ function updateUrbitDeliveryPrice($priceFromConfig, $defaultPrice)
 
     if (isset($urbit_carrier[0]['id_carrier'])) {
         $sql = 'UPDATE `'._DB_PREFIX_.
-          'delivery` SET price=' . $price . ' WHERE id_carrier=' . $urbit_carrier[0]['id_carrier'];
+          'delivery` SET price=' . floatval($price) . ' WHERE id_carrier=' . (int)$urbit_carrier[0]['id_carrier'];
 
         if (!Db::getInstance()->execute($sql)) {
             return false;

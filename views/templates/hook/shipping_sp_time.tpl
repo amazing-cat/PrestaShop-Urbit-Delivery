@@ -6,6 +6,12 @@
 * @license
 *}
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
 <script type="text/javascript">
     var urb_carrier_id = "{$carrier_id|escape:'htmlall':'UTF-8'}";
     var user = "{$logged_user_id|escape:'htmlall':'UTF-8'}";
@@ -114,7 +120,7 @@
                 phoneValidationErrorMessage(error_format_id);
             }
         }
-       
+
 
         function fieldValidation() {
             validate_error = 0;
@@ -729,8 +735,20 @@
         <div class="col-sm-6 col-md-6 hp_urbit_ship_where_do_go">
             <h4 class="hp_urbit_ship_h4 hp_ub_now">{l s='When would you like your purchase?' mod='urbit'}</h4>
             <p  class="hp_urbit_validation_error" id="del_time_error"></p>
-            <p class="hp_urbit_ship_p" id="urb_options_now">{l s='Now' mod='urbit'} <i class="icon-check"></i></p>
+            <div class="col-xs-9">
+            <p class="hp_urbit_ship_p" id="urb_options_now">{l s='Now' mod='urbit'}<i class="icon-check"></i></p>
+            </div>
+            <div class="col-xs-3">
+              <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='choose the place where you want to get your order, We will bring it to you in less than 2 hours' mod='urbit'}" data-placement="top" style="padding-top: 7px;"></span>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="col-xs-9">
             <p id="sp_time" class="hp_urbit_ship_p">{l s='Specific time (CET)' mod='urbit'} <i class=""></i></p>
+            </div>
+            <div class="col-xs-3">
+              <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='Choose the time and place, we bring your order, as simple as that' mod='urbit'}" data-placement="top" style="padding-top: 7px;"></span>
+                </div>
+                <div style="clear: both;"></div>
             <div class="row hp_urbit_sp_time">
                 <p class="hp_urbit_validation_error" style="padding-left: 15px;" id="del_spdate_error"></p>
                 <div class="col-xs-6">
@@ -751,7 +769,7 @@
             </div>
             <div class="hp_urbit_ship_send">
                 <h4 class="hp_urbit_ship_h4">{l s='Where would you like to recieve your purchase?' mod='urbit'}</h4>
-                <label id="hp_urbit_check_box_1" class="hp_urbit_ship_blue_p" for="c1"><i style="padding-right: 10px;" class="icon-gift"></i>{l s='Would you like to send your purchase as a gift?' mod='urbit'} <i class="icon icon-square-o"></i></label>
+                <label id="hp_urbit_check_box_1" class="hp_urbit_ship_blue_p" for="c1"><i style="padding-right: 10px;" class="icon-gift"></i>{l s='Would you like to send your purchase as a gift?' mod='urbit'} <i class="icon icon-square-o"></i><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='You want someone else to recieve the order ? We can do that.' mod='urbit'}" data-placement="top"></label>
                 <input type="checkbox" id="c1" name="cc" />
 
                 <p class="hp_urbit_validation_error" id="del_first_name_error"></p>
@@ -1040,4 +1058,11 @@
       #sp_time_date, #sp_time_hour, #sp_time_minute{
       background-color: #fff;
     }
+    /* @media screen and (max-width: 640px)
+    {
+        #urb_options_now, #sp_time
+        {
+            width: 300px;
+        }
+    } */
 </style>

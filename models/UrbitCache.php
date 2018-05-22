@@ -38,12 +38,12 @@ class UrbitCache extends ObjectModel
                 'required' => true,
                 'size' => 10
             ),
-            'params'                => array('type' => self::TYPE_NOTHING),
-            'UrbitShippingResponse' => array('type' => self::TYPE_NOTHING),
+            'params'                => array('type' => self::TYPE_STRING),
+            'UrbitShippingResponse' => array('type' => self::TYPE_STRING),
             'delay'                 => array('type' => self::TYPE_STRING, 'validate' => 'isString', 'size' => 255),
             'date_add'              => array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
             'date_upd'              => array('type' => self::TYPE_DATE, 'validate' => 'isDate'),
-            'partly_cost'           => array('type' => self::TYPE_NOTHING),
+            'partly_cost'           => array('type' => self::TYPE_STRING),
         )
     );
     /**
@@ -131,8 +131,8 @@ class UrbitCache extends ObjectModel
         return Db::getInstance()->insert(
             self::$definition['table'],
             array(
-                'hash' => $hash,
-                'total_charges' => $total_charges
+                'hash' => pSQL($hash),
+                'total_charges' => doubleval($total_charges)
             )
         );
     }
@@ -165,7 +165,7 @@ class UrbitCache extends ObjectModel
     public static function getCacheByHash($hash)
     {
         $sql = 'SELECT total_charges, delay, partly_cost FROM `' . _DB_PREFIX_ .
-          self::$definition['table'] . '` WHERE hash = "' . $hash . '"';
+          self::$definition['table'] . '` WHERE hash = "' . pSQL($hash) . '"';
         return Db::getInstance()->getRow($sql);
     }
 

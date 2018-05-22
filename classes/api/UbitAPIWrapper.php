@@ -284,7 +284,7 @@ class UbitAPIWrapper
 
         $sql = "INSERT INTO `" . _DB_PREFIX_ . "urbit_api_log`
                                     (`cart_id`,`type`, `payload`)
-                            VALUES($id_cart, '$type', '" . $apiCall . "')";
+                            VALUES(" . (int)$id_cart . ", '" . pSQL($type) . "', '" . pSQL($apiCall) . "')";
 
         Db::getInstance()->execute($sql);
     }

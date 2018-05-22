@@ -392,6 +392,7 @@ class AdminUrbitAbstract extends ModuleAdminController
     public function displayAjaxSaveCategorySetting()
     {
         if (!empty($this->json_data) && is_array($this->json_data)) {
+            header('Content-Type', 'application/json');
             echo Tools::jsonEncode($this->json_data);
         }
     }
@@ -450,6 +451,7 @@ class AdminUrbitAbstract extends ModuleAdminController
     public function displayAjaxDeleteCategory()
     {
         if (!empty($this->json_data) && $this->json_data) {
+            header('Content-Type', 'application/json');
             echo Tools::jsonEncode($this->json_data);
         }
     }
@@ -508,6 +510,7 @@ class AdminUrbitAbstract extends ModuleAdminController
             Configuration::get('PS_CURRENCY_DEFAULT'),
             $additional_charges
         );
+        header('Content-Type', 'application/json');
         echo Tools::jsonEncode($this->json_data);
         exit();
     }
@@ -551,6 +554,7 @@ class AdminUrbitAbstract extends ModuleAdminController
                 $this->json_data['success'] = $urbit_rate_config->deleteUrbitRateConfig();
             }
         }
+        header('Content-Type', 'application/json');
         echo Tools::jsonEncode($this->json_data);
         exit();
     }
@@ -584,6 +588,7 @@ class AdminUrbitAbstract extends ModuleAdminController
         }
         // return to data json
         $this->json_data = $product_search;
+        header('Content-Type', 'application/json');
         echo Tools::jsonEncode($this->json_data);
         exit();
     }
@@ -611,6 +616,6 @@ class AdminUrbitAbstract extends ModuleAdminController
         echo $this->json_data;
         exit();
     }
-    // product carrier filter
+  
     
 }

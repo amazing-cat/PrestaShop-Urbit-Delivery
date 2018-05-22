@@ -25,5 +25,4 @@ class AdminUrbitController extends AdminUrbitAbstract
         $this->configuration_keys['URBIT_PACKAGE_MARGIN'] = 'isInt';
         $this->configuration_keys['URBIT_PLACE_EXTRA_COVER_FORM'] = 'isString';
     }
-
 }

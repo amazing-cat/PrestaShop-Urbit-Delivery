@@ -134,16 +134,16 @@ class UrbitCarrier extends Carrier
           'warehouse_carrier` SET `id_carrier` = ' .
            (int)$id_carrier .
            ' WHERE `id_warehouse` = ' .
-           $id_warehouse .
+            (int)$id_warehouse .
            ' AND `id_carrier` = ' .
-            $old_id_carrier);
+            (int)$old_id_carrier);
     }
 
     public function getActiveCarriers($module_name)
     {
         return Db::getInstance()->executeS(' SELECT * FROM '
           . _DB_PREFIX_ . 'carrier c WHERE c.external_module_name = "' .
-           $module_name .
+           pSQL($module_name) .
            '"  AND c.deleted = 0  AND c.active = 1 ');
     }
 
@@ -152,7 +152,7 @@ class UrbitCarrier extends Carrier
         $user_delivery_address = Db::getInstance()->executeS('
         SELECT a.*, c.*,c.name as country FROM ' . _DB_PREFIX_ . 'address a
             INNER JOIN ' . _DB_PREFIX_ . 'country_lang c ON a.id_country = c.id_country
-            WHERE  a.id_address = ' . $address_id . ' AND a.deleted = 0 AND a.active = 1
+            WHERE  a.id_address = ' . (int)$address_id . ' AND a.deleted = 0 AND a.active = 1
         ');
 
         $user = array();
@@ -177,7 +177,7 @@ class UrbitCarrier extends Carrier
     public function getUserUrbCarrier()
     {
         $defalult_urb_carrier = Db::getInstance()->executeS('SELECT `id_carrier`
-            FROM `' . _DB_PREFIX_ . 'urbit_rate_service_code` WHERE `code`="' . $this->carrier_code . '"');
+            FROM `' . _DB_PREFIX_ . 'urbit_rate_service_code` WHERE `code`="' . pSQL($this->carrier_code) . '"');
 
         $defalult_urb_carrier_id = "";
         foreach ($defalult_urb_carrier as $val) {

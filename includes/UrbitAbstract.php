@@ -1052,6 +1052,9 @@ abstract class UrbitAbstract extends CarrierModule
             }
         }
 
+        $this->context->smarty->assign(
+            array('urbit_img_path'  => $this->_path.'views/img/',)
+        );
         $this->smarty->assign(array(
             'user_delivery_address'    => $user_delivery_address,
             'user_billing_address'     => $user_billing_address,
@@ -1148,9 +1151,9 @@ abstract class UrbitAbstract extends CarrierModule
                     'UPDATE ' .
                     _DB_PREFIX_ .
                     'urbit_order_cart SET `id_carrier` = ' .
-                    $objOrder->id_carrier .
+                    (int)$objOrder->id_carrier .
                     ' WHERE id_cart = ' .
-                    $objOrder->id_cart
+                    (int)$objOrder->id_cart
                 );
         }
 
@@ -1709,6 +1712,7 @@ abstract class UrbitAbstract extends CarrierModule
     public function getState($id_country)
     {
         $states = State::getStatesByIdCountry($id_country);
+        header('Content-Type', 'application/json');
         exit(Tools::jsonEncode($states));
     }
 

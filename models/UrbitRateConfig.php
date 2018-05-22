@@ -234,7 +234,7 @@ class UrbitRateConfig extends ObjectModel
                 JOIN `' . _DB_PREFIX_ . 'urbit_rate_service_code` arsc
                         ON arsc.`id_urbit_rate_service_code` = arcs.`id_urbit_rate_service_code`
                 WHERE arc.`id_category` = ' . (int)$id_category . '
-                        AND arcs.id_urbit_rate_service_code IN(' . implode(',', $services) . ')';
+                    AND arcs.id_urbit_rate_service_code IN(' . implode(',',  array_map('intval', $services)) . ')';
         $exist_services = Db::getInstance()->getValue($sql);
         // convert string to array old_service
         $exist_services = explode(',', $exist_services);
@@ -274,7 +274,7 @@ class UrbitRateConfig extends ObjectModel
         foreach ($new_services as $service) {
             $sql = 'INSERT INTO `' . _DB_PREFIX_ . 'urbit_rate_config_service`
                                     (`id_urbit_rate_service_code`, `id_urbit_rate_config`)
-                            VALUES(' . $service . ', ' . $this->id . ')';
+                            VALUES(' . (int)$service . ', ' . (int)$this->id . ')';
             if (!Db::getInstance()->execute($sql)) {
                 return false;
             }
@@ -489,7 +489,7 @@ class UrbitRateConfig extends ObjectModel
                         JOIN `' . _DB_PREFIX_ . 'urbit_rate_service_code` arsc
                                 ON arsc.`id_urbit_rate_service_code` = arcs.`id_urbit_rate_service_code`
                         WHERE arc.`id_product` = ' . (int)$id_product . '
-                                AND arcs.id_urbit_rate_service_code IN(' . implode(',', $services) . ')';
+                                AND arcs.id_urbit_rate_service_code IN(' . implode(',', array_map('intval', $services)) . ')';
         $exist_services = Db::getInstance()->getValue($sql);
         $exist_services = explode(',', $exist_services);
 
@@ -541,7 +541,7 @@ class UrbitRateConfig extends ObjectModel
         foreach ($new_services as $service) {
             $sql = 'INSERT INTO `' . _DB_PREFIX_ . 'urbit_rate_config_service`
                                     (`id_urbit_rate_service_code`, `id_urbit_rate_config`)
-                            VALUES(' . $service . ', ' . $this->id . ')';
+                            VALUES(' . (int)$service . ', ' . (int)$this->id . ')';
             if (!Db::getInstance()->execute($sql)) {
                 return false;
             }

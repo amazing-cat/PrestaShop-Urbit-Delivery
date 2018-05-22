@@ -112,7 +112,7 @@ class UrbitCart
     {
         $order_cart = Db::getInstance()->executeS(
             'SELECT o.id_urbit_order_cart FROM ' . _DB_PREFIX_ . 'urbit_order_cart o '
-            . 'WHERE  o.id_cart = ' . $order_values['id_cart']
+            . 'WHERE  o.id_cart = ' . (int)$order_values['id_cart']
         );
 
         foreach ($order_cart as $val) {
@@ -151,60 +151,60 @@ class UrbitCart
                       `delivery_advise_message`,
                       `delivery_is_gift`,
                       `delivery_gift_receiver_phone`,
-                      `date_add`, `date_upd`,`delivery_type`)  VALUES (' . $order_values['id_cart']
-                  . ',' . $order_values['id_order']
-                  . ',' . $order_values['id_carrier']
-                  . ',' . $order_values['id_customer']
-                  . ',' . $order_values['id_address_delivery']
-                  . ',' . $order_values['id_address_invoice']
-                  . ',' . $order_values['flag_order_created']
-                  . ',"' . $order_values['delivery_options']['del_first_name']
-                  . '","' . $order_values['delivery_options']['del_last_name']
-                  . '","' . $checkout_id
-                  . '","' . $isSend
-                  . '","' . $responseCode
-                  . '","' . $order_values['delivery_options']['del_street']
-                  . '","' . $order_values['delivery_options']['del_time']
-                  . '","' . $order_values['preparation_end_time']
-                  . '","' . $order_values['delivery_options']['del_zip_code']
-                  . '","' . $order_values['delivery_options']['del_city']
-                  . '","' . $order_values['delivery_options']['del_contact_mail']
-                  . '","' . $order_values['delivery_options']['del_contact_phone']
-                  . '","' . $order_values['delivery_options']['del_advise_message']
-                  . '","' . $order_values['delivery_options']['del_is_gift']
-                  . '","' . $order_values['delivery_options']['del_gift_receiver_phone']
-                  . '","' . $order_values['date_add']
-                  . '","' . $order_values['date_upd']
-                  . '","' . $order_values['delivery_options']['del_type'] . '")'
+                      `date_add`, `date_upd`,`delivery_type`)  VALUES (' . (int)$order_values['id_cart']
+                  . ',' . (int)$order_values['id_order']
+                  . ',' . (int)$order_values['id_carrier']
+                  . ',' . (int)$order_values['id_customer']
+                  . ',' . (int)$order_values['id_address_delivery']
+                  . ',' . (int)$order_values['id_address_invoice']
+                  . ',' . (int)$order_values['flag_order_created']
+                  . ',"' . pSQL($order_values['delivery_options']['del_first_name'])
+                  . '","' . pSQL($order_values['delivery_options']['del_last_name'])
+                  . '","' . pSQL($checkout_id)
+                  . '","' . pSQL($isSend)
+                  . '","' . pSQL($responseCode)
+                  . '","' . pSQL($order_values['delivery_options']['del_street'])
+                  . '","' . pSQL($order_values['delivery_options']['del_time'])
+                  . '","' . pSQL($order_values['preparation_end_time'])
+                  . '","' . pSQL($order_values['delivery_options']['del_zip_code'])
+                  . '","' . pSQL($order_values['delivery_options']['del_city'])
+                  . '","' . pSQL($order_values['delivery_options']['del_contact_mail'])
+                  . '","' . pSQL($order_values['delivery_options']['del_contact_phone'])
+                  . '","' . pSQL($order_values['delivery_options']['del_advise_message'])
+                  . '","' . (int)$order_values['delivery_options']['del_is_gift']
+                  . '","' . pSQL($order_values['delivery_options']['del_gift_receiver_phone'])
+                  . '","' . pSQL($order_values['date_add'])
+                  . '","' . pSQL($order_values['date_upd'])
+                  . '","' . pSQL($order_values['delivery_options']['del_type']) . '")'
             );
         } else {
             $ret = Db::getInstance()->execute(
-                'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `id_cart`=' . $order_values['id_cart']
-                . ',`id_order`=' . $order_values['id_order']
-                . ',`id_carrier`=' . $order_values['id_carrier']
-                . ',`id_customer`=' . $order_values['id_customer']
-                . ',`id_address_delivery`=' . $order_values['id_address_delivery']
-                . ',`id_address_invoice`=' . $order_values['id_address_invoice']
-                . ',`flag_order_created`="' . $order_values['flag_order_created']
-                . '",`delivery_first_name`="' . $order_values['delivery_options']['del_first_name']
-                . '",`delivery_last_name`="' . $order_values['delivery_options']['del_last_name']
-                . '",`checkout_id`="' . $checkout_id
-                . '",`is_send`="' . $isSend
-                . '",`response_code`="' . $responseCode
-                . '",`delivery_street`="' . $order_values['delivery_options']['del_street']
-                . '",`delivery_time`="' . $order_values['delivery_options']['del_time']
-                . '",`preparation_end_time`="' . $order_values['preparation_end_time']
-                . '",`delivery_zip_code`="' . $order_values['delivery_options']['del_zip_code']
-                . '",`delivery_city`="' . $order_values['delivery_options']['del_city']
-                . '",`delivery_contact_mail`="' . $order_values['delivery_options']['del_contact_mail']
-                . '",`delivery_contact_phone`="' . $order_values['delivery_options']['del_contact_phone']
-                . '",`delivery_advise_message`="' . $order_values['delivery_options']['del_advise_message']
-                . '",`delivery_is_gift`="' . $order_values['delivery_options']['del_is_gift']
-                . '",`delivery_gift_receiver_phone`="' . $order_values['delivery_options']['del_gift_receiver_phone']
-                . '",`date_add`="' . $order_values['date_add']
-                . '",`date_upd`="' . $order_values['date_upd']
-                . '",`delivery_type`="' . $order_values['delivery_options']['del_type']
-                . '" WHERE `id_urbit_order_cart`=' . $id_urbit_order_cart
+                'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `id_cart`=' . (int)$order_values['id_cart']
+                . ',`id_order`=' . (int)$order_values['id_order']
+                . ',`id_carrier`=' . (int)$order_values['id_carrier']
+                . ',`id_customer`=' . (int)$order_values['id_customer']
+                . ',`id_address_delivery`=' . (int)$order_values['id_address_delivery']
+                . ',`id_address_invoice`=' . (int)$order_values['id_address_invoice']
+                . ',`flag_order_created`="' . (int)$order_values['flag_order_created']
+                . '",`delivery_first_name`="' . pSQL($order_values['delivery_options']['del_first_name'])
+                . '",`delivery_last_name`="' . pSQL($order_values['delivery_options']['del_last_name'])
+                . '",`checkout_id`="' . pSQL($checkout_id)
+                . '",`is_send`="' . pSQL($isSend)
+                . '",`response_code`="' . pSQL($responseCode)
+                . '",`delivery_street`="' . pSQL($order_values['delivery_options']['del_street'])
+                . '",`delivery_time`="' . pSQL($order_values['delivery_options']['del_time'])
+                . '",`preparation_end_time`="' . pSQL($order_values['preparation_end_time'])
+                . '",`delivery_zip_code`="' . pSQL($order_values['delivery_options']['del_zip_code'])
+                . '",`delivery_city`="' . pSQL($order_values['delivery_options']['del_city'])
+                . '",`delivery_contact_mail`="' . pSQL($order_values['delivery_options']['del_contact_mail'])
+                . '",`delivery_contact_phone`="' . pSQL($order_values['delivery_options']['del_contact_phone'])
+                . '",`delivery_advise_message`="' . pSQL($order_values['delivery_options']['del_advise_message'])
+                . '",`delivery_is_gift`="' . (int)$order_values['delivery_options']['del_is_gift']
+                . '",`delivery_gift_receiver_phone`="' . pSQL($order_values['delivery_options']['del_gift_receiver_phone'])
+                . '",`date_add`="' . pSQL($order_values['date_add'])
+                . '",`date_upd`="' . pSQL($order_values['date_upd'])
+                . '",`delivery_type`="' . pSQL($order_values['delivery_options']['del_type'])
+                . '" WHERE `id_urbit_order_cart`=' . (int)$id_urbit_order_cart
             );
         }
 
@@ -303,7 +303,7 @@ class UrbitCart
                     INNER JOIN ' . _DB_PREFIX_ . 'address AS adr ON uoc.id_address_delivery = adr.id_address
                     INNER JOIN ' . _DB_PREFIX_ . 'country AS cnt ON adr.id_country = cnt.id_country
                     INNER JOIN ' . _DB_PREFIX_ . 'country_lang  AS cntlng ON adr.id_country = cntlng.id_country
-                    WHERE uoc.id_cart =' . $id_cart . ' AND uoc.id_carrier =' . $id_carrier);
+                    WHERE uoc.id_cart =' . (int)$id_cart . ' AND uoc.id_carrier =' . (int)$id_carrier);
 
         return $order_cart;
     }
@@ -322,7 +322,7 @@ class UrbitCart
         return Db::getInstance()->executeS('SELECT * FROM `' .
            _DB_PREFIX_
            .'urbit_order_cart` WHERE `id_urbit_order_cart`="' .
-           $urbitCartId .
+            (int)$urbitCartId .
            '"');
     }
 
@@ -331,7 +331,7 @@ class UrbitCart
         return Db::getInstance()->executeS('SELECT * FROM `' .
             _DB_PREFIX_ .
             'urbit_order_cart` WHERE `id_order`=' .
-             $orderId);
+            (int)$orderId);
     }
 
     public function getOrderProducts($id_cart)
@@ -343,7 +343,7 @@ class UrbitCart
                     FROM ' . _DB_PREFIX_ . 'cart_product AS cp
                     INNER JOIN ' . _DB_PREFIX_ . 'product  AS p ON cp.id_product = p.id_product
                     INNER JOIN ' . _DB_PREFIX_ . 'product_lang  AS pl ON p.id_product = pl.id_product
-                    WHERE cp.id_cart =' . $id_cart . ' AND pl.id_lang = ' . $lang_id);
+                    WHERE cp.id_cart =' . (int)$id_cart . ' AND pl.id_lang = ' . (int)$lang_id);
 
         return $order_products;
     }
@@ -351,8 +351,8 @@ class UrbitCart
     public static function updateOrderId($orderId, $cartId)
     {
         $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `id_order` =' . $orderId
-            . ' WHERE `id_cart`=' . $cartId
+            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `id_order` =' . (int)$orderId
+            . ' WHERE `id_cart`=' . (int)$cartId
         );
 
         return $ret;
@@ -361,8 +361,8 @@ class UrbitCart
     public static function updateSentFlag($isSendValue, $urbitCartId)
     {
         $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `is_send` ="' . $isSendValue
-            . '" WHERE `id_urbit_order_cart`=' . $urbitCartId
+            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `is_send` ="' . pSQL($isSendValue)
+            . '" WHERE `id_urbit_order_cart`=' . (int)$urbitCartId
         );
 
         return $ret;
@@ -371,8 +371,8 @@ class UrbitCart
     public static function updateResponseCode($responseCode, $urbitCartId)
     {
         $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `response_code` ="' . $responseCode
-            . '" WHERE `id_urbit_order_cart`=' . $urbitCartId
+            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `response_code` ="' . pSQL($responseCode)
+            . '" WHERE `id_urbit_order_cart`=' . (int)$urbitCartId
         );
 
         return $ret;
@@ -381,8 +381,8 @@ class UrbitCart
     public static function updateCheckoutId($checkoutId, $cartId)
     {
         $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `checkout_id` ="' . $checkoutId
-            . '" WHERE `id_cart`=' . $cartId
+            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `checkout_id` ="' . pSQL($checkoutId)
+            . '" WHERE `id_cart`=' . (int)$cartId
         );
 
         return $ret;
@@ -391,8 +391,8 @@ class UrbitCart
     public static function updatePreparationEndTime($preparationEndTime, $cartId)
     {
         $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `preparation_end_time` ="' . $preparationEndTime
-            . '" WHERE `id_cart`=' . $cartId
+            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `preparation_end_time` ="' . pSQL($preparationEndTime)
+            . '" WHERE `id_cart`=' . (int)$cartId
         );
 
         return $ret;
