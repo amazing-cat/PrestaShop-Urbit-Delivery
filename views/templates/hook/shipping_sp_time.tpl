@@ -62,7 +62,7 @@ $(document).ready(function(){
         $('[name=processCarrier]').removeClass('gray-out');
 
         function emptyMessage(error_id) {
-            $(error_id).html("This field cannot be empty!");
+            $(error_id).html("Ce champ ne peut pas être vide!");
             $(error_id).css("display", "block");
             $('[name=processCarrier]').addClass('gray-out');
             validate_error = 1;
@@ -71,7 +71,7 @@ $(document).ready(function(){
         }
 
         function numericMessage(error_id) {
-            $(error_id).html("This value is not valid!");
+            $(error_id).html("Cette valeur n'est pas valide!");
             $(error_id).css("display", "block");
             $('[name=processCarrier]').addClass('gray-out');
             validate_error = 1;
@@ -80,7 +80,7 @@ $(document).ready(function(){
         }
 
         function phoneValidationErrorMessage(error_id) {
-            $(error_id).html("Invalid mobile number. Please, set phone number with country code");
+            $(error_id).html("Numéro de portable invalide. S'il vous plaît, définissez le numéro de téléphone avec le code du pays");
             $(error_id).css("display", "block");
             $('[name=processCarrier]').addClass('gray-out');
             validate_error = 1;
@@ -89,7 +89,7 @@ $(document).ready(function(){
         }
 
         function noScpDateSelect() {
-            $("#del_spdate_error").html("Please Select Date and Time!");
+            $("#del_spdate_error").html("Veuillez sélectionner la date et l'heure!");
             $('[name=processCarrier]').addClass('gray-out');
             validate_error = 1;
 
@@ -695,7 +695,7 @@ $(document).ready(function(){
         /*get the dates*/
         function getdeliveryDates() {
             var d = new Date();
-            var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            var weekday = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 
             $.ajax({
                 url: "{$base_url|escape:'htmlall':'UTF-8'}",
@@ -712,7 +712,7 @@ $(document).ready(function(){
                  success: function (data) {
                      if(data) {
                          var open_dates = $.parseJSON(data);
-                         var options = '<option value="">Select Date</option>';
+                         var options = '<option value="">Choisir date</option>';
                          for (var x = 0; x < open_dates.length; x++) {
                             var days = new Date(open_dates[x]);
                             options += '<option value="' + open_dates[x] + '">' + weekday[days.getDay()] + '</option>';
@@ -753,7 +753,7 @@ $(document).ready(function(){
                 <p class="hp_urbit_validation_error" style="padding-left: 15px;" id="del_spdate_error"></p>
                 <div class="col-xs-6">
                     <select class="fixed-width-xl" id="sp_time_date" disabled>
-                        <option value="">Select Date</option>
+                        <option value="">Choisir date</option>
                     </select>
                 </div>
                 <div class="col-xs-3">
