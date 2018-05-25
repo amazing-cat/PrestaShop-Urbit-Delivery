@@ -409,7 +409,7 @@ $(document).ready(function(){
                 del_last_name = $("#hp_urbit_del_last_name").val("{$user_delivery_address.lastname|escape:'htmlall':'UTF-8'}");
                 del_street = $("#hp_urbit_del_street").val("{$user_delivery_address.address1|escape:'htmlall':'UTF-8'}");
                 del_city = $("#hp_urbit_del_city").val("{$user_delivery_address.city|escape:'htmlall':'UTF-8'}");
-                del_zip_code = $("#hp_urbit_del_postcode").val({$user_delivery_address.postcode|escape:'htmlall':'UTF-8'});
+                del_zip_code = $("#hp_urbit_del_postcode").val("{$user_delivery_address.postcode|escape:'htmlall':'UTF-8'}");
                             }
                             $("#hp_urbit_del_phone").stop(true, true).slideToggle('fast');
 
@@ -844,6 +844,18 @@ $(document).ready(function(){
     <div class="hp_urbit_validation_error_message" id="hp_urbit_address_validation_error">
         <p>Malformed address / Address outside the delivery area</p>
     </div>
+    <p class="hp_urbit_terms">By using Urb-it service you accept the 
+        <a target="_blank" href="https://urb-it.com/terms-of-service">
+        terms
+        </a>
+         and agree with 
+        <br>
+         the 
+        <a target="_blank" href="https://urb-it.com/privacy-policy">
+            privacy policy
+        </a>
+         for this service.
+     </p>
 </div>
 
 <style>
