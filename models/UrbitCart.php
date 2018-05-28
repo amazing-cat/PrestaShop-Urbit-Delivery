@@ -7,7 +7,6 @@
  * @license Urbit
  */
 
-require_once(dirname(__FILE__) . '/../classes/api/UrbitShippingResponse.php');
 
 
 class UrbitCart
