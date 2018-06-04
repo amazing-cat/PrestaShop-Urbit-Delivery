@@ -80,7 +80,7 @@ $(document).ready(function(){
         }
 
         function phoneValidationErrorMessage(error_id) {
-            $(error_id).html("Numéro de portable invalide. S'il vous plaît, définissez le numéro de téléphone avec le code du pays");
+            $(error_id).html("Numéro de portable invalide. S'il vous plaît, définissez le numéro de téléphone avec le code du pays.");
             $(error_id).css("display", "block");
             $('[name=processCarrier]').addClass('gray-out');
             validate_error = 1;
@@ -844,17 +844,16 @@ $(document).ready(function(){
     <div class="hp_urbit_validation_error_message" id="hp_urbit_address_validation_error">
         <p>Malformed address / Address outside the delivery area</p>
     </div>
-    <p class="hp_urbit_terms">By using Urb-it service you accept the 
+    <p class="hp_urbit_terms">En utilisant le service Urb-it vous acceptez nos 
         <a target="_blank" href="https://urb-it.com/terms-of-service">
-        terms
+        conditions d'utilisation
         </a>
-         and agree with 
+         et vous accepter 
         <br>
-         the 
+         la 
         <a target="_blank" href="https://urb-it.com/privacy-policy">
-            privacy policy
+        politique de confidentialité.
         </a>
-         for this service.
      </p>
 </div>
 
