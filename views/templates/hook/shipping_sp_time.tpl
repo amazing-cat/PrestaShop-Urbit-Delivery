@@ -848,7 +848,7 @@ $(document).ready(function(){
         <a target="_blank" href="https://urb-it.com/terms-of-service">
         conditions d'utilisation
         </a>
-         et vous accepter 
+         et vous acceptez
         <br>
          la 
         <a target="_blank" href="https://urb-it.com/privacy-policy">
