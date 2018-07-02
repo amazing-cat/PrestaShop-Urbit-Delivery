@@ -185,7 +185,7 @@ class AdminUrbitAbstract extends ModuleAdminController
 
     /**
      * Default action or any ajax action which is not defined displayAjaxActionName()
-     * @see AdminControllerCore::displayAjax()
+       * @see AdminControllerCore::displayAjax()
      */
     public function displayAjax()
     {
@@ -616,6 +616,6 @@ class AdminUrbitAbstract extends ModuleAdminController
         echo $this->json_data;
         exit();
     }
-  
-    
+
+
 }

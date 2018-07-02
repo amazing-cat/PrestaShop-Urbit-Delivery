@@ -252,7 +252,7 @@
             }
 
 
-            
+
 
             //  $("#URBIT_ENABLE_TEST_MOD").val(returnval.URBIT_ENABLE_TEST_MOD);
             if(returnval.URBIT_ENABLE_TEST_MOD){
@@ -551,6 +551,7 @@ p.num{
                          <input type="text" name="URBIT_SEND_FAILIOR_REPORT" />
                      </div>
                 </fieldset>-->
+                
                 <input   type="hidden" value="validate" name="validate" id="validate" />
                 <input type="button" value="Save" name="save_credentials_data" id="save_credentials_data" />
             </form>

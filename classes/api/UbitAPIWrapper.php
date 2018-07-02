@@ -156,9 +156,6 @@ class UbitAPIWrapper
         $endpoint = $this->path;
 
         $json = $this->params ? Tools::jsonEncode($this->params) : '';
-
-
-
         $this->request_body = $json;
 
         $ch = curl_init($endpoint);
@@ -201,12 +198,8 @@ class UbitAPIWrapper
 
         $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $this->request = curl_getinfo($ch);
-
-        /*if ($this->method == "PUT") {
-            print_r($httpStatusCode);exit;
-        }*/
-
         curl_close($ch);
+
         $this->response = new UrbitShippingResponse($this->result, $this->method, $httpStatusCode);
         $this->getApiLogs($this->response, 'UrbitShippingResponse');
 
@@ -310,6 +303,25 @@ class UbitAPIWrapper
 
         return $this->send();
     }
+
+    /**
+     * Validates Postal Code.
+     *
+     * @param string $street
+     * @param string $postcode
+     * @param string $city
+     * @return UrbitShippingResponse object with error status, data and error message attributs.
+     */
+    public function validatePostalCode($postcode = '')
+    {
+        $this->getPath('v2/postalcodes/' . $postcode);
+
+        $this->method = 'GET';
+        $this->needAuthorization = false;
+
+        return $this->send();
+    }
+
 
     /*get cart ID from $smarty*/
 

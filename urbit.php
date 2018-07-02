@@ -26,7 +26,7 @@ class Urbit extends UrbitAbstract
     public function __construct()
     {
         $this->name = 'urbit';
-        $this->version = '1.1.7';
+        $this->version = '1.1.7.1';
 
         $this->author = 'urb-it';
         $this->tab = 'shipping_logistics';
@@ -109,5 +109,20 @@ class Urbit extends UrbitAbstract
             'ajax_extra_cover_action' => 'ExtraCoverForm'
         ));
         return $this->display($this->name . '.php', 'extracarrier.tpl');
+    }
+
+    /**
+     * Request to validate postal Code
+     * @param $params
+     */
+    public function hookDisplayProductButtons()
+    {
+        $base_url = "";
+        $this->context->smarty->assign(
+            array('urbit_img_path'  => $this->_path.'views/img/',
+               'base_url'           => $base_url,
+          )
+        );
+        return $this->display($this->name . '.php', 'postcodevalidator.tpl');
     }
 }

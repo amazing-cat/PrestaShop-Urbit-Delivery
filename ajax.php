@@ -124,7 +124,7 @@ if ($test_api_call) {
     Configuration::updateValue('URBIT_ADMIN_STATUS_TRIGGER', Tools::getValue('URBIT_ADMIN_STATUS_TRIGGER'));
     Configuration::updateValue('URBIT_ADMIN_STATUS_CANCEL', Tools::getValue('URBIT_ADMIN_STATUS_CANCEL'));
 
-    
+
 
     //update delivery cost
     Configuration::updateValue('URBIT_ADMIN_FLAT_FEE_EUR', Tools::getValue('URBIT_ADMIN_FLAT_FEE_EUR'));

@@ -249,7 +249,7 @@ $(document).ready(function(){
 
                     var validate_delivery = JSON.parse(data);
 
-                    if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
+                      if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
                         validate_error = 0;
 
                         addressValidationError(false);
@@ -257,7 +257,7 @@ $(document).ready(function(){
                         if ($("[name=processCarrier]").hasClass('gray-out')) {
                             $('[name=processCarrier]').removeClass('gray-out');
                         }
-                    } else if (validate_delivery.ajaxCheckValidateDelivery == "false") {
+                    } else if (validate_delivery.ajaxCheckValidateDelivery === "false") {
                         if (!$("[name=processCarrier]").hasClass('gray-out')) {
                             $('[name=processCarrier]').addClass('gray-out');
                         }
@@ -844,13 +844,13 @@ $(document).ready(function(){
     <div class="hp_urbit_validation_error_message" id="hp_urbit_address_validation_error">
         <p>Malformed address / Address outside the delivery area</p>
     </div>
-    <p class="hp_urbit_terms">En utilisant le service Urb-it vous acceptez nos 
+    <p class="hp_urbit_terms">En utilisant le service Urb-it vous acceptez nos
         <a target="_blank" href="https://urb-it.com/terms-of-service">
         conditions d'utilisation
         </a>
          et vous acceptez
         <br>
-         la 
+         la
         <a target="_blank" href="https://urb-it.com/privacy-policy">
         politique de confidentialité.
         </a>
