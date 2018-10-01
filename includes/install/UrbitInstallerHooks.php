@@ -33,7 +33,8 @@ class UrbitInstallerHooks extends UrbitInstallerEntity
             && $module->registerHook('actionCartSummary')
             && $module->registerHook('actionOrderStatusPostUpdate')
             && $module->registerHook('displayProductButtons')
-            && $module->registerHook('extraCarrier');
+            && $module->registerHook('extraCarrier')
+            && $module->registerHook('displayAdminOrder');
     }
 
     /**
