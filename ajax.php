@@ -14,6 +14,7 @@ include(dirname(__FILE__) . '/classes/api/UbitAPIWrapper.php');
 require_once(dirname(__FILE__).'../../../config/config.inc.php');
 require_once(dirname(__FILE__).'../../../init.php');
 
+header('Content-Type', 'application/json');
 
 $db = Db::getInstance();
 // ps_urbit_rate_service_code
@@ -122,9 +123,6 @@ if ($test_api_call) {
 
     Configuration::updateValue('URBIT_ADMIN_AUTO_VALIDATION_TIME', Tools::getValue('URBIT_ADMIN_AUTO_VALIDATION_TIME'));
     Configuration::updateValue('URBIT_ADMIN_STATUS_TRIGGER', Tools::getValue('URBIT_ADMIN_STATUS_TRIGGER'));
-    Configuration::updateValue('URBIT_ADMIN_STATUS_CANCEL', Tools::getValue('URBIT_ADMIN_STATUS_CANCEL'));
-
-    
 
     //update delivery cost
     Configuration::updateValue('URBIT_ADMIN_FLAT_FEE_EUR', Tools::getValue('URBIT_ADMIN_FLAT_FEE_EUR'));
@@ -293,7 +291,6 @@ if ($test_api_call) {
     $form_data['URBIT_ADMIN_EMAIL'] = Configuration::get('URBIT_ADMIN_EMAIL');
     $form_data['URBIT_ADMIN_AUTO_VALIDATION_TIME'] = Configuration::get('URBIT_ADMIN_AUTO_VALIDATION_TIME');
     $form_data['URBIT_ADMIN_STATUS_TRIGGER'] = Configuration::get('URBIT_ADMIN_STATUS_TRIGGER');
-    $form_data['URBIT_ADMIN_STATUS_CANCEL'] = Configuration::get('URBIT_ADMIN_STATUS_CANCEL');
     $form_data['URBIT_ADMIN_FLAT_FEE_EUR'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_EUR');
     $form_data['URBIT_ADMIN_FLAT_FEE_SEK'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_SEK');
     $form_data['URBIT_ADMIN_FLAT_FEE_GBP'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_GBP');
@@ -301,8 +298,6 @@ if ($test_api_call) {
     $form_data['URBIT_ADMIN_STATUS_TRIGGER_OPTIONS'] = OrderState::getOrderStates(
         (int)Context::getContext()->language->id
     );
-
-    $form_data['URBIT_ADMIN_STATUS_CANCEL_OPTIONS'] = $form_data['URBIT_ADMIN_STATUS_TRIGGER_OPTIONS'];
 
     echo Tools::jsonEncode($form_data);
 }

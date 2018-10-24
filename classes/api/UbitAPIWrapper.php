@@ -7,8 +7,8 @@
  * @license Urb-it
  */
 
-include dirname(__FILE__) . "/Config.php";
-include dirname(__FILE__) . "/UrbitShippingResponse.php";
+include("Config.php");
+include("UrbitShippingResponse.php");
 
 class UbitAPIWrapper
 {

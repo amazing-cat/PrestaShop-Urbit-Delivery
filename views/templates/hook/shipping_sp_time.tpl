@@ -5,11 +5,16 @@
 * @copyright Urb-it
 * @license
 *}
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css"
+      rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/fr.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>
 
 <script type="text/javascript">
@@ -17,11 +22,13 @@ $(document).ready(function(){
     var user = "{$logged_user_id|escape:'htmlall':'UTF-8'}";
     var zip_code_deliverable = "{$zip_code_deliverable|escape:'htmlall':'UTF-8'}";
 
-    $(function($) {
+    $(function ($) {
         var radio_selected = 0;
-        var ret_field_validate, ret_field_validate_ajax, del_is_gift, del_gift_receiver_phone, del_time, del_name, del_first_name, del_last_name, del_street, del_zip_code, del_city, del_contact_phone, del_contact_mail, del_advise_message, del_type;
-        var firstDeliveryMinutes= "00";
-        var lastDeliveryMinutes= "00";
+        var ret_field_validate, ret_field_validate_ajax, del_is_gift, del_gift_receiver_phone, del_time, del_name,
+            del_first_name, del_last_name, del_street, del_zip_code, del_city, del_contact_phone, del_contact_mail,
+            del_advise_message, del_type;
+        var firstDeliveryMinutes = "00";
+        var lastDeliveryMinutes = "00";
         var nearestHour;
         var nearestMinute;
         var endHour;
@@ -33,30 +40,30 @@ $(document).ready(function(){
         currentdate = new Date(utcDate);
 
         var datetime = currentdate.getFullYear() + "-" +
-            ((currentdate.getMonth() + 1)<10?'0':'') + (currentdate.getMonth() + 1) + "-" +
-            (currentdate.getDate()<10?'0':'') + currentdate.getDate() + " "  +
-            (currentdate.getHours()<10?'0':'') + currentdate.getHours() + ":" +
-            (currentdate.getMinutes()<10?'0':'') + currentdate.getMinutes() + ":" +
-            (currentdate.getSeconds()<10?'0':'') +  currentdate.getSeconds();
+            ((currentdate.getMonth() + 1) < 10 ? '0' : '') + (currentdate.getMonth() + 1) + "-" +
+            (currentdate.getDate() < 10 ? '0' : '') + currentdate.getDate() + " " +
+            (currentdate.getHours() < 10 ? '0' : '') + currentdate.getHours() + ":" +
+            (currentdate.getMinutes() < 10 ? '0' : '') + currentdate.getMinutes() + ":" +
+            (currentdate.getSeconds() < 10 ? '0' : '') + currentdate.getSeconds();
 
         //get nearest possible now time (now time + order preparation time + Urb-it standard process time)
         $.ajax({
             url: "{$base_url|escape:'htmlall':'UTF-8'}",
             type: 'post',
             data: {
-                ajax       : true,
+                ajax: true,
                 nearest_possible: true,
-                module     : 'urbit',
-                fc         : 'module',
-                controller : 'ShippingOptions'
+                module: 'urbit',
+                fc: 'module',
+                controller: 'ShippingOptions'
             },
             success: function (nearest) {
-              datetime = nearest;
-              initCart();
+                datetime = nearest;
+                initCart();
             }
         });
 
-        var newLogic = currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + (currentdate.getHours()) + ":" + (currentdate.getMinutes()<10?'0':'') + currentdate.getMinutes() + ":" + (currentdate.getSeconds()<10?'0':'') +  currentdate.getSeconds();
+        var newLogic = currentdate.getFullYear() + "-" + (currentdate.getMonth() + 1) + "-" + currentdate.getDate() + " " + (currentdate.getHours()) + ":" + (currentdate.getMinutes() < 10 ? '0' : '') + currentdate.getMinutes() + ":" + (currentdate.getSeconds() < 10 ? '0' : '') + currentdate.getSeconds();
 
         var validate_error;
         $('[name=processCarrier]').removeClass('gray-out');
@@ -116,7 +123,7 @@ $(document).ready(function(){
         function phoneNumberValidation(value, error_empty_id, error_format_id) {
             if (value == "") {
                 emptyMessage(error_empty_id);
-            } else if (!value.match(/^[+][0-9]/)){
+            } else if (!value.match(/^[+][0-9]/)) {
                 phoneValidationErrorMessage(error_format_id);
             }
         }
@@ -128,16 +135,16 @@ $(document).ready(function(){
             $(".hp_urbit_validation_error").css("display", "none");
 
             var requiredInputs = [
-                    { input_id:"#hp_urbit_del_first_name", error_id:"#del_first_name_error" },
-                    { input_id:"#hp_urbit_del_last_name", error_id:"#del_last_name_error" },
-                    { input_id:"#hp_urbit_del_street", error_id:"#del_street_error" },
-                    { input_id:"#hp_urbit_del_city", error_id:"#del_city_error" },
-                    { input_id:"#hp_urbit_del_postcode", error_id:"#del_zip_error" },
-                    { input_id:"#contact_mobile_number", error_id:"#del_contact_mobile_number_error" },
-                    { input_id:"#contact_email_address", error_id:"#del_contact_email_address_error" }
+                { input_id: "#hp_urbit_del_first_name", error_id: "#del_first_name_error"},
+                { input_id: "#hp_urbit_del_last_name", error_id: "#del_last_name_error"},
+                { input_id: "#hp_urbit_del_street", error_id: "#del_street_error"},
+                { input_id: "#hp_urbit_del_city", error_id: "#del_city_error"},
+                { input_id: "#hp_urbit_del_postcode", error_id: "#del_zip_error"},
+                { input_id: "#contact_mobile_number", error_id: "#del_contact_mobile_number_error"},
+                { input_id: "#contact_email_address", error_id: "#del_contact_email_address_error"}
             ];
 
-            $.each(requiredInputs, function(key, value ) {
+            $.each(requiredInputs, function (key, value) {
                 if ($(value.input_id).val() == "") {
                     emptyMessage(value.error_id);
                 }
@@ -160,15 +167,15 @@ $(document).ready(function(){
 
             //validate phone numbers
             del_contact_phone = $("#contact_mobile_number").val();
-            phoneNumberValidation(del_contact_phone, "#del_gift_phone_error", "#del_contact_mobile_number_error" )
+            phoneNumberValidation(del_contact_phone, "#del_gift_phone_error", "#del_contact_mobile_number_error")
 
             if ($("#hp_urbit_check_box_1 i").hasClass('icon-check-square-o')) {
                 del_gift_receiver_phone = $("#hp_urbit_del_phone").val();
-                phoneNumberValidation(del_gift_receiver_phone, "#del_gift_phone_error", "#del_gift_phone_format_error" )
+                phoneNumberValidation(del_gift_receiver_phone, "#del_gift_phone_error", "#del_gift_phone_format_error")
             }
 
             //validate zipcode
-            if (!$.isNumeric($("#hp_urbit_del_postcode").val())){
+            if (!$.isNumeric($("#hp_urbit_del_postcode").val())) {
                 numericMessage("#del_zip_error");
             }
 
@@ -222,24 +229,24 @@ $(document).ready(function(){
                 url: "{$base_url|escape:'htmlall':'UTF-8'}",
                 type: 'post',
                 data: {
-                    ajax       : true,
-                    validate_delivery : 1,
-                    del_is_gift : del_is_gift,
-                    del_gift_receiver_phone : del_gift_receiver_phone,
-                    del_time : del_time,
-                    del_name : del_name,
-                    del_first_name : del_first_name,
-                    del_last_name : del_last_name,
-                    del_street : del_street,
-                    del_zip_code : del_zip_code,
-                    del_city : del_city,
-                    del_contact_phone : del_contact_phone,
-                    del_contact_mail : del_contact_mail,
-                    del_advise_message : del_advise_message,
-                    del_type : del_type,
-                    module     : 'urbit',
-                    fc         : 'module',
-                    controller : 'ShippingOptions'
+                    ajax: true,
+                    validate_delivery: 1,
+                    del_is_gift: del_is_gift,
+                    del_gift_receiver_phone: del_gift_receiver_phone,
+                    del_time: del_time,
+                    del_name: del_name,
+                    del_first_name: del_first_name,
+                    del_last_name: del_last_name,
+                    del_street: del_street,
+                    del_zip_code: del_zip_code,
+                    del_city: del_city,
+                    del_contact_phone: del_contact_phone,
+                    del_contact_mail: del_contact_mail,
+                    del_advise_message: del_advise_message,
+                    del_type: del_type,
+                    module: 'urbit',
+                    fc: 'module',
+                    controller: 'ShippingOptions'
                 },
 
                 success: function (data) {
@@ -257,7 +264,7 @@ $(document).ready(function(){
                         if ($("[name=processCarrier]").hasClass('gray-out')) {
                             $('[name=processCarrier]').removeClass('gray-out');
                         }
-                    } else if (validate_delivery.ajaxCheckValidateDelivery == "false") {
+                    } else if (validate_delivery.ajaxCheckValidateDelivery === "false") {
                         if (!$("[name=processCarrier]").hasClass('gray-out')) {
                             $('[name=processCarrier]').addClass('gray-out');
                         }
@@ -306,7 +313,7 @@ $(document).ready(function(){
                         $("#hp_urbit_spinner").remove();
                     });
 
-                    if (fieldValidation()){
+                    if (fieldValidation()) {
                         fieldValidationAjax();
                     }
 
@@ -314,24 +321,24 @@ $(document).ready(function(){
                         url: "{$base_url|escape:'htmlall':'UTF-8'}",
                         type: 'post',
                         data: {
-                            ajax       : true,
-                            id_data : 123,
-                            del_is_gift : del_is_gift,
-                            del_gift_receiver_phone : del_gift_receiver_phone,
-                            del_time : del_time,
-                            del_name : del_name,
-                            del_first_name : del_first_name,
-                            del_last_name : del_last_name,
-                            del_street : del_street,
-                            del_city : del_city,
-                            del_zip_code : del_zip_code,
-                            del_contact_phone : del_contact_phone,
-                            del_contact_mail : del_contact_mail,
-                            del_advise_message : del_advise_message,
-                            del_type : del_type,
-                            module     : 'urbit',
-                            fc         : 'module',
-                            controller : 'ShippingOptions'
+                            ajax: true,
+                            id_data: 123,
+                            del_is_gift: del_is_gift,
+                            del_gift_receiver_phone: del_gift_receiver_phone,
+                            del_time: del_time,
+                            del_name: del_name,
+                            del_first_name: del_first_name,
+                            del_last_name: del_last_name,
+                            del_street: del_street,
+                            del_city: del_city,
+                            del_zip_code: del_zip_code,
+                            del_contact_phone: del_contact_phone,
+                            del_contact_mail: del_contact_mail,
+                            del_advise_message: del_advise_message,
+                            del_type: del_type,
+                            module: 'urbit',
+                            fc: 'module',
+                            controller: 'ShippingOptions'
                         },
 
                         success: function (data) {
@@ -370,7 +377,7 @@ $(document).ready(function(){
             }
         });
 
-        $("#sp_time_date").change(function () {
+        /*$("#sp_time_date").change(function () {
             var min_val = $("#sp_time_minute").val();
 
             if(min_val) {
@@ -378,12 +385,12 @@ $(document).ready(function(){
                     fieldValidationAjax();
                 }
             }
-        });
+        });*/
 
         $("#sp_time_hour").change(function () {
             var min_val = $("#sp_time_minute").val();
 
-            if(min_val) {
+            if (min_val) {
                 if (fieldValidation()) {
                     fieldValidationAjax();
                 }
@@ -410,8 +417,8 @@ $(document).ready(function(){
                 del_street = $("#hp_urbit_del_street").val("{$user_delivery_address.address1|escape:'htmlall':'UTF-8'}");
                 del_city = $("#hp_urbit_del_city").val("{$user_delivery_address.city|escape:'htmlall':'UTF-8'}");
                 del_zip_code = $("#hp_urbit_del_postcode").val("{$user_delivery_address.postcode|escape:'htmlall':'UTF-8'}");
-                            }
-                            $("#hp_urbit_del_phone").stop(true, true).slideToggle('fast');
+            }
+            $("#hp_urbit_del_phone").stop(true, true).slideToggle('fast');
 
             if (fieldValidation()) {
                 fieldValidationAjax();
@@ -424,7 +431,7 @@ $(document).ready(function(){
 
             if (urb_carrier_id == radio_selected.val()) {
 
-                if (fieldValidation()){
+                if (fieldValidation()) {
                     fieldValidationAjax();
                 }
 
@@ -436,8 +443,7 @@ $(document).ready(function(){
             }
         });
 
-        function updateCart()
-        {
+        function updateCart() {
             radio_selected = $("input[type='radio']:checked");
 
             var mobile = $("#contact_mobile_number").val();
@@ -451,7 +457,7 @@ $(document).ready(function(){
             }
 
             if (urb_carrier_id == radio_selected.val()) {
-                if (validate_error==1) {
+                if (validate_error == 1) {
                 }
                 del_is_gift = 0;
                 del_gift_receiver_phone = "";
@@ -483,24 +489,24 @@ $(document).ready(function(){
                     url: "{$base_url|escape:'htmlall':'UTF-8'}",
                     type: 'post',
                     data: {
-                        ajax       : true,
-                        process_carrier : 1,
-                        del_is_gift : del_is_gift,
-                        del_gift_receiver_phone : del_gift_receiver_phone,
-                        del_time : del_time,
-                        del_name : del_name,
-                        del_first_name : del_first_name,
-                        del_last_name : del_last_name,
-                        del_street : del_street,
-                        del_city : del_city,
-                        del_zip_code : del_zip_code,
-                        del_contact_phone : del_contact_phone,
-                        del_contact_mail : del_contact_mail,
-                        del_advise_message : del_advise_message,
-                        del_type : del_type,
-                        module     : 'urbit',
-                        fc         : 'module',
-                        controller : 'ShippingOptions'
+                        ajax: true,
+                        process_carrier: 1,
+                        del_is_gift: del_is_gift,
+                        del_gift_receiver_phone: del_gift_receiver_phone,
+                        del_time: del_time,
+                        del_name: del_name,
+                        del_first_name: del_first_name,
+                        del_last_name: del_last_name,
+                        del_street: del_street,
+                        del_city: del_city,
+                        del_zip_code: del_zip_code,
+                        del_contact_phone: del_contact_phone,
+                        del_contact_mail: del_contact_mail,
+                        del_advise_message: del_advise_message,
+                        del_type: del_type,
+                        module: 'urbit',
+                        fc: 'module',
+                        controller: 'ShippingOptions'
                     },
 
                     success: function (data) {
@@ -576,34 +582,32 @@ $(document).ready(function(){
         });
 
         /*get time for the date*/
-        $('#sp_time_date').change(function () {
-            var selectDate = $(this).val();
-            var d = new Date();
-            var today =  d.toISOString().substring(0, 10);
-            var nowTime = d.getHours();
-
-            var $hour = $('#sp_time_hour').html("").prop("disabled", true);
-            var $minute = $('#sp_time_minute').html("").prop("disabled", true);
+        function getDeliveryHours(deliveryDate) {
+            var selectDate = deliveryDate.format('YYYY-MM-DD'),
+                d = new Date(),
+                today = d.toISOString().substring(0, 10),
+                nowTime = d.getHours(),
+                $hour = $('#sp_time_hour').html("").prop("disabled", true),
+                $minute = $('#sp_time_minute').html("").prop("disabled", true);
 
             $.ajax({
                 url: "{$base_url|escape:'htmlall':'UTF-8'}",
                 type: 'post',
                 data: {
-                    ajax       : true,
-                    selectDate : selectDate,
-                    module     : 'urbit',
-                    fc         : 'module',
-                    controller : 'ShippingOptions'
+                    ajax: true,
+                    selectDate: selectDate,
+                    module: 'urbit',
+                    fc: 'module',
+                    controller: 'ShippingOptions'
                 },
 
                 success: function (data) {
-                    if(data) {
+                    if (data) {
                         var deliveryTimeInfo = JSON.parse(data);
 
                         if (deliveryTimeInfo.hasOwnProperty("status") && deliveryTimeInfo.status == false) {
                             return;
                         }
-
                         firstDeliveryMinutes = deliveryTimeInfo.minutes.start;
                         lastDeliveryMinutes = deliveryTimeInfo.minutes.end;
 
@@ -626,19 +630,19 @@ $(document).ready(function(){
                                 options += '<option value="' + open_hours[x] + '">' + open_hours[x] + '</option>';
                             }
                         }
-
-                        $hour.prop( "disabled", false ).html(options);
-                        $minute.prop( "disabled", false );
+                        $hour.prop("disabled", false).html(options);
+                        $minute.prop("disabled", false);
                     }
                 },
                 error: function (errorThrown) {
                     console.log(errorThrown);
                 }
             });
-        });
+
+        }
 
         /*get the minutes*/
-        $("#sp_time_hour").change(function() {
+        $("#sp_time_hour").change(function () {
             var selectHour = $(this).val();
             var selectDate = $("#sp_time_date").val();
             var someDate = new Date(selectDate).toDateString();
@@ -648,7 +652,7 @@ $(document).ready(function(){
             var selectedHourIndex = $("#sp_time_hour option:selected").index();
             var hoursOptionsCount = $('#sp_time_hour option').size();
 
-            if((today == someDate) && (parseInt(selectHour) == parseInt(nearestHour))) {
+            if ((today == someDate) && (parseInt(selectHour) == parseInt(nearestHour))) {
 
                 if (parseInt(nearestHour) == parseInt(endHour)) {
                     for (var min = 0; min < minutes.length; min++) {
@@ -671,7 +675,7 @@ $(document).ready(function(){
                         openMin += '<option value="' + minutes[min] + '">' + minutes[min] + '</option>';
                     }
                 }
-            } else if (selectedHourIndex == (hoursOptionsCount - 1) ) {
+            } else if (selectedHourIndex == (hoursOptionsCount - 1)) {
                 var fDeliveryMin = parseInt(lastDeliveryMinutes);
 
                 for (var min = 0; min < minutes.length; min++) {
@@ -680,47 +684,53 @@ $(document).ready(function(){
                     }
                 }
             } else {
-                for(var min = 0; min < minutes.length; min++) {
-                    openMin += '<option value="'+ minutes[min] +'">'+ minutes[min] +'</option>';
+                for (var min = 0; min < minutes.length; min++) {
+                    openMin += '<option value="' + minutes[min] + '">' + minutes[min] + '</option>';
                 }
             }
             $('#sp_time_minute').html(openMin);
+
         });
 
-
-        $("#sp_time").click(function() {
+        $("#sp_time").click(function () {
             getdeliveryDates();
         });
 
         /*get the dates*/
         function getdeliveryDates() {
-            var d = new Date();
-            var weekday = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
-
+            // var d = new Date();
+            // var weekday = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+            var self = this;
             $.ajax({
                 url: "{$base_url|escape:'htmlall':'UTF-8'}",
                 type: 'post',
                 data: {
-                    ajax       : true,
-                    selectOffTime : 'off',
-                    nowTime     :   newLogic,
-                    module     : 'urbit',
-                    fc         : 'module',
-                    controller : 'ShippingOptions'
+                    ajax: true,
+                    selectOffTime: 'off',
+                    nowTime: newLogic,
+                    module: 'urbit',
+                    fc: 'module',
+                    controller: 'ShippingOptions'
                 },
+                success: function (data) {
+                    if (data) {
+                        var open_dates = $.parseJSON(data);
 
-                 success: function (data) {
-                     if(data) {
-                         var open_dates = $.parseJSON(data);
-                         var options = '<option value="">Choisir date</option>';
-                         for (var x = 0; x < open_dates.length; x++) {
-                            var days = new Date(open_dates[x]);
-                            options += '<option value="' + open_dates[x] + '">' + weekday[days.getDay()] + '</option>';
-                         }
-                         $('#sp_time_date').html(options);
-                         $("#sp_time_date").prop("disabled", false);
-                     }
-                 }
+                        $('#sp_time_date_picker').datetimepicker({
+                            format: 'YYYY-MM-DD',
+                            locale: 'fr',
+                            showTodayButton: true,
+                            minDate: moment(),
+                            maxDate: moment(open_dates[open_dates.length - 1])
+                        }).on('dp.change', function (e) {
+                            $(this).datetimepicker('hide');
+                            getDeliveryHours(e.date);
+                        });
+
+                        // $("#sp_time_hour").prop("disabled", false);
+                        // $("#sp_time_minute").prop("disabled", false);
+                    }
+                }
             });
         }
     });
@@ -729,32 +739,47 @@ $(document).ready(function(){
 <div id="urb_options">
 
     <div id="hp_urbit_ship_title" class="text-center">
-        <img src="{$carrier_img_id|escape:'htmlall':'UTF-8'}"  class=" img-responsive center-block" />
+        <img src="{$carrier_img_id|escape:'htmlall':'UTF-8'}" class=" img-responsive center-block"/>
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-6 hp_urbit_ship_where_do_go">
             <h4 class="hp_urbit_ship_h4 hp_ub_now">{l s='When would you like your purchase?' mod='urbit'}</h4>
-            <p  class="hp_urbit_validation_error" id="del_time_error"></p>
+            <p class="hp_urbit_validation_error" id="del_time_error"></p>
             <div class="col-xs-9">
-            <p class="hp_urbit_ship_p" id="urb_options_now">{l s='Now' mod='urbit'}<i class="icon-check"></i></p>
+                <p class="hp_urbit_ship_p" id="urb_options_now">{l s='Now' mod='urbit'}<i class="icon-check"></i></p>
             </div>
             <div class="col-xs-3">
-              <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='choose the place where you want to get your order, We will bring it to you in less than 2 hours' mod='urbit'}" data-placement="top" style="padding-top: 7px;"></span>
-                </div>
-                <div style="clear: both;"></div>
-                <div class="col-xs-9">
-            <p id="sp_time" class="hp_urbit_ship_p">{l s='Specific time (CET)' mod='urbit'} <i class=""></i></p>
+                <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip"
+                           title="{l s='choose the place where you want to get your order, We will bring it to you in less than 2 hours' mod='urbit'}"
+                           data-placement="top" style="padding-top: 7px;"></span>
+            </div>
+            <div style="clear: both;"></div>
+            <div class="col-xs-9">
+                <p id="sp_time" class="hp_urbit_ship_p">{l s='Specific time (CET)' mod='urbit'} <i class=""></i></p>
             </div>
             <div class="col-xs-3">
-              <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='Choose the time and place, we bring your order, as simple as that' mod='urbit'}" data-placement="top" style="padding-top: 7px;"></span>
-                </div>
-                <div style="clear: both;"></div>
+                <span><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip"
+                           title="{l s='Choose the time and place, we bring your order, as simple as that' mod='urbit'}"
+                           data-placement="top" style="padding-top: 7px;"></span>
+            </div>
+            <div style="clear: both;"></div>
             <div class="row hp_urbit_sp_time">
                 <p class="hp_urbit_validation_error" style="padding-left: 15px;" id="del_spdate_error"></p>
-                <div class="col-xs-6">
+                <!-- <div class="col-xs-6">
                     <select class="fixed-width-xl" id="sp_time_date" disabled>
                         <option value="">Choisir date</option>
                     </select>
+                </div> -->
+                <div class="col-xs-6">
+                    <p>Choisir une date</p>
+                    <div class="form-group">
+                        <div class='input-group date fixed-width-xl' id='sp_time_date_picker'>
+                            <input id="sp_time_date" type='text' class="form-control" data-format="DD-MM-YYY"/>
+                            <span class="input-group-addon">
+                              <span class="glyphicon glyphicon-calendar"></span>
+                          </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-3">
                     <select class="fixed-width-xl" id="sp_time_hour" disabled>
@@ -769,8 +794,13 @@ $(document).ready(function(){
             </div>
             <div class="hp_urbit_ship_send">
                 <h4 class="hp_urbit_ship_h4">{l s='Where would you like to recieve your purchase?' mod='urbit'}</h4>
-                <label id="hp_urbit_check_box_1" class="hp_urbit_ship_blue_p" for="c1"><i style="padding-right: 10px;" class="icon-gift"></i>{l s='Would you like to send your purchase as a gift?' mod='urbit'} <i class="icon icon-square-o"></i><img src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip" title="{l s='You want someone else to recieve the order ? We can do that.' mod='urbit'}" data-placement="top"></label>
-                <input type="checkbox" id="c1" name="cc" />
+                <label id="hp_urbit_check_box_1" class="hp_urbit_ship_blue_p" for="c1"><i style="padding-right: 10px;"
+                                                                                          class="icon-gift"></i>{l s='Would you like to send your purchase as a gift?' mod='urbit'}
+                    <i class="icon icon-square-o"></i><img
+                            src="{$urbit_img_path|escape:'html':'utf-8'}customer-service.png" data-toggle="tooltip"
+                            title="{l s='You want someone else to recieve the order ? We can do that.' mod='urbit'}"
+                            data-placement="top"></label>
+                <input type="checkbox" id="c1" name="cc"/>
 
                 <p class="hp_urbit_validation_error" id="del_first_name_error"></p>
                 <div class="form-group">
@@ -820,7 +850,7 @@ $(document).ready(function(){
             <div class="form-group">
                 <input type="text" class="form-control urbit_del_validate" id="contact_mobile_number"
                        placeholder="{l s='Please enter International Format ex: +336XXXXXXXXX' mod='urbit'}"
-                       value="{$user_delivery_address.phone|escape:'htmlall':'UTF-8'}"  required>
+                       value="{$user_delivery_address.phone|escape:'htmlall':'UTF-8'}" required>
             </div>
 
             <p class="hp_urbit_validation_error" id="del_contact_email_address_error"></p>
@@ -844,148 +874,164 @@ $(document).ready(function(){
     <div class="hp_urbit_validation_error_message" id="hp_urbit_address_validation_error">
         <p>Malformed address / Address outside the delivery area</p>
     </div>
-    <p class="hp_urbit_terms">En utilisant le service Urb-it vous acceptez nos 
+    <p class="hp_urbit_terms">En utilisant le service Urb-it vous acceptez nos
         <a target="_blank" href="https://urb-it.com/terms-of-service">
-        conditions d'utilisation
+            conditions d'utilisation
         </a>
-         et vous acceptez
+        et vous acceptez
         <br>
-         la 
+        la
         <a target="_blank" href="https://urb-it.com/privacy-policy">
-        politique de confidentialité.
+            politique de confidentialité.
         </a>
-     </p>
+    </p>
 </div>
 
 <style>
     #hp_urbit_address_validation_error {
         display: none;
-        color:#F13340;
+        color: #F13340;
         font-size: 16px;
-        padding:5px 0px;
+        padding: 5px 0px;
     }
 
-    #urb_options{
+    #urb_options {
         display: none;
     }
-    #msg_urb_now_not_available{
+
+    #msg_urb_now_not_available {
         display: none;
 
     }
-    #sp_time_options{
+
+    #sp_time_options {
         display: none;
     }
-    .hook_extracarrier{
-        // display: none;
+
+    .hook_extracarrier {
+    / / display: none;
     }
-    .gray-out{
+
+    .gray-out {
         opacity: 0.4;
         filter: alpha(opacity=40);
         cursor: default;
         pointer-events: none;
     }
-    .dissapear{
+
+    .dissapear {
         display: none;
     }
 
-    .hp_urbit_ship_p{
+    .hp_urbit_ship_p {
         height: 40px;
         background-color: #F6F7F9;
         padding: 10px;
         color: #000;
         font-size: 15px;
-        color:#7A7A7B;
+        color: #7A7A7B;
         font-weight: 200;
         margin-bottom: 15px !important;
     }
 
-    .hp_urbit_ship_p:hover{
+    .hp_urbit_ship_p:hover {
         cursor: pointer;
     }
 
-    .hp_urbit_ship_p i{
-        color:#5EC7D1;
-        float:right;
+    .hp_urbit_ship_p i {
+        color: #5EC7D1;
+        float: right;
     }
 
-    .hp_urbit_ship_p#sp_time{
+    .hp_urbit_ship_p#sp_time {
         margin-bottom: 0px !important;
     }
 
-    .hp_urbit_ship_h4{
+    .hp_urbit_ship_h4 {
         margin: 9px 0 20px 0;
-        color:#000;
+        color: #000;
     }
-    .hp_ub_now.hp_urbit_ship_h4 { margin-bottom: 0; }
-    .hp_urbit_ship_send { margin-top: 25px; }
+
+    .hp_ub_now.hp_urbit_ship_h4 {
+        margin-bottom: 0;
+    }
+
+    .hp_urbit_ship_send {
+        margin-top: 25px;
+    }
 
     #hp_urbit_ship_title {
         margin: 10px 0 20px 0;
     }
-    #hp_urbit_ship_title img{
+
+    #hp_urbit_ship_title img {
         margin: 0 auto;
     }
 
-    .hp_urbit_ship_contact div input, .hp_urbit_ship_send input{
+    .hp_urbit_ship_contact div input, .hp_urbit_ship_send input {
         height: 40px;
-        background-color:#F6F7F9;
+        background-color: #F6F7F9;
         border: none;
         font-size: 15px;
         padding: 10px;
     }
 
-    .hp_urbit_ship_blue_p{
+    .hp_urbit_ship_blue_p {
         font-size: 15px;
         /*margin-top: 10px;*/
         margin-bottom: 10px !important;
-        color:#5EC7D1;
+        color: #5EC7D1;
         font-weight: 200;
     }
 
-    .hp_urbit_ship_blue_p:hover{
+    .hp_urbit_ship_blue_p:hover {
         cursor: pointer;
     }
 
-    .hp_urbit_ship_where_do_go select{
+    .hp_urbit_ship_where_do_go select {
         height: 40px;
-        background-color:#F6F7F9;
+        background-color: #F6F7F9;
         border: none;
         font-size: 15px;
         padding: 10px;
         width: 100%;
-        margin-top:10px;
+        margin-top: 10px;
     }
 
-    .hp_urbit_sp_time{
-        display: none;
-    }
-    .hp_urbit_ship_h4.mobile_title { margin-bottom: 0; }
-
-    .hp_urbit_ship_discount{
+    .hp_urbit_sp_time {
         display: none;
     }
 
-    .hp_urbit_ship_discount input[type="button"]{
+    .hp_urbit_ship_h4.mobile_title {
+        margin-bottom: 0;
+    }
+
+    .hp_urbit_ship_discount {
+        display: none;
+    }
+
+    .hp_urbit_ship_discount input[type="button"] {
         width: 100%;
         margin-bottom: 10px;
         color: #fff;
         border-radius: 0px;
     }
 
-    .hp_urbit_ship_discount input[value="Cancel"]{
+    .hp_urbit_ship_discount input[value="Cancel"] {
         background-color: #B1B7BE;
     }
-    .hp_urbit_ship_discount input[value="Continue"]{
+
+    .hp_urbit_ship_discount input[value="Continue"] {
         background-color: #373D49;
     }
 
-    .icon{
+    .icon {
         font-size: 20px;
         float: right;
     }
 
-    #urb_options{
-        border:2px solid #2c2e2f;
+    #urb_options {
+        border: 2px solid #2c2e2f;
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 5px;
@@ -993,27 +1039,27 @@ $(document).ready(function(){
         animation: borderBlink 1s linear 5;
     }
 
-    #hp_urbit_ship_title p{
+    #hp_urbit_ship_title p {
         font-size: 1.5em;
         margin-top: 5px;
         font-weight: bold;
     }
 
-    #hp_urbit_ship_title hr{
+    #hp_urbit_ship_title hr {
         border-color: #FDC400;
     }
 
-    #hp_urbit_ship_send_phone{
+    #hp_urbit_ship_send_phone {
         display: none;
     }
 
-    #hp_urbit_ship_extra_msg{
+    #hp_urbit_ship_extra_msg {
         max-height: 100px;
         max-width: 100%;
         min-height: 100px;
         min-width: 100%;
         background-color: #F6F7F9;
-        border:none;
+        border: none;
         font-size: 15px;
         padding: 10px;
     }
@@ -1028,6 +1074,7 @@ $(document).ready(function(){
         }
 
     }
+
     @keyframes borderBlink {
         from, to {
             border-color: transparent
@@ -1037,38 +1084,40 @@ $(document).ready(function(){
         }
     }
 
-    label.hp_urbit_ship_blue_p{
+    label.hp_urbit_ship_blue_p {
         display: inline-block;
         width: 100% !important;
     }
 
-    input[type=checkbox]#c1{
+    input[type=checkbox]#c1 {
         display: none;
     }
 
     .hp_urbit_validation_error {
-        color:#F13340;
+        color: #F13340;
         line-height: 12px;
         font-size: 10px;
         height: 20px;
-        padding:4px 0px;
+        padding: 4px 0px;
     }
 
-    #hp_urbit_del_phone{
+    #hp_urbit_del_phone {
         display: none;
     }
+
     .hp_urbit_ship_send .form-group {
         margin-bottom: 5px;
     }
 
     #urb_options_now, #sp_time, #hp_urbit_del_first_name,
-     #hp_urbit_del_last_name, #hp_urbit_del_postcode,
-     #hp_urbit_del_citym #hp_urbit_del_city, #hp_urbit_del_city,
-     #contact_mobile_number,#contact_email_address,
-     #hp_urbit_ship_extra_msg, #hp_urbit_del_street,
-      #sp_time_date, #sp_time_hour, #sp_time_minute{
-      background-color: #fff;
+    #hp_urbit_del_last_name, #hp_urbit_del_postcode,
+    #hp_urbit_del_citym #hp_urbit_del_city, #hp_urbit_del_city,
+    #contact_mobile_number, #contact_email_address,
+    #hp_urbit_ship_extra_msg, #hp_urbit_del_street,
+    #sp_time_date, #sp_time_hour, #sp_time_minute {
+        background-color: #fff;
     }
+
     /* @media screen and (max-width: 640px)
     {
         #urb_options_now, #sp_time

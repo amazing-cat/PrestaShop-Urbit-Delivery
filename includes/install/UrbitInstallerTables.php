@@ -151,7 +151,7 @@ class UrbitInstallerTables extends UrbitInstallerEntity
         $queries[] = "REPLACE INTO `{$PREFIX}urbit_rate_service_code`
             (`id_carrier`, `id_carrier_history`, `code`, `service`, `active`, `delay`)
             VALUES
-            (0, '', '{$code}', 'urb-it delivery', 1, 'Maitnenant ou à une heure spécifique')
+            (0, '', '{$code}', 'urb-it delivery', 1, 'Now or at the time of your choice')
         ;";
 
         foreach ($queries as $query) {
