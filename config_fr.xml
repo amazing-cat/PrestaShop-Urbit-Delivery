@@ -2,7 +2,7 @@
 <module>
 	<name>urbit</name>
 	<displayName><![CDATA[Urb-it]]></displayName>
-	<version><![CDATA[1.1.7.2]]></version>
+	<version><![CDATA[1.1.7.3]]></version>
 	<description><![CDATA[ Urb-it livre les commandes exactement o&ugrave; vous le voulez, quand vous le voulez.]]></description>
 	<author><![CDATA[urb-it]]></author>
 	<tab><![CDATA[shipping_logistics]]></tab>
