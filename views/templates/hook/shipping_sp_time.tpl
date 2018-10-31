@@ -270,7 +270,7 @@
 
                     var validate_delivery = JSON.parse(data);
 
-                    if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
+                      if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
                         validate_error = 0;
 
                         addressValidationError(false);
@@ -925,7 +925,11 @@
         </a>
         et vous acceptez
         <br>
+<<<<<<< HEAD
         la
+=======
+         la
+>>>>>>> master
         <a target="_blank" href="https://urb-it.com/privacy-policy">
             politique de confidentialité.
         </a>

@@ -226,6 +226,37 @@
 
             }
 
+<<<<<<< HEAD
+=======
+
+
+            if (returnval.URBIT_ADMIN_STATUS_CANCEL_OPTIONS != false ) {
+                if (returnval.URBIT_ADMIN_STATUS_CANCEL_OPTIONS) {
+                    $('#URBIT_ADMIN_STATUS_CANCEL').append($('<option/>', {
+                        value: "",
+                        text : "None"
+                    }));
+                    $.each(returnval.URBIT_ADMIN_STATUS_CANCEL_OPTIONS, function (index, value) {
+                        $('#URBIT_ADMIN_STATUS_CANCEL').append($('<option/>', {
+                            value: value.id_order_state,
+                            text : value.name
+                        }));
+                    });
+                }
+            }
+
+            if(returnval.URBIT_ADMIN_STATUS_CANCEL != false ){
+                $("#URBIT_ADMIN_STATUS_CANCEL").val(returnval.URBIT_ADMIN_STATUS_CANCEL);
+
+            }else{
+                $("#URBIT_ADMIN_STATUS_CANCEL").val("");
+
+            }
+
+
+
+
+>>>>>>> master
             //  $("#URBIT_ENABLE_TEST_MOD").val(returnval.URBIT_ENABLE_TEST_MOD);
             if(returnval.URBIT_ENABLE_TEST_MOD){
                 $('#URBIT_ENABLE_TEST_MOD').prop('checked', true);
@@ -548,6 +579,7 @@ p.num{
                          <input type="text" name="URBIT_SEND_FAILIOR_REPORT" />
                      </div>
                 </fieldset>-->
+                
                 <input   type="hidden" value="validate" name="validate" id="validate" />
                 <input type="button" value="Save" name="save_credentials_data" id="save_credentials_data" />
             </form>

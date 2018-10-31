@@ -225,6 +225,19 @@ abstract class UrbitAbstract extends CarrierModule
 
         return $this->display($this->name . '.php', 'backofficeheader.tpl');
     }
+    
+    /**
+     * hook into Admin Order
+     * @return assign template
+     */
+    public function hookdisplayAdminOrder($params)
+    {
+        $orderinfo = new Order($params['id_order']);
+        $carrierinfo = new Carrier($orderinfo->id_carrier);
+          if ($carrierinfo->name =='urb-it delivery') {
+            return $this->display($this->name . '.php', 'admin_order.tpl');
+          }
+    }
 
     public function hookdisplayAdminOrder($params)
     {
@@ -1080,6 +1093,8 @@ abstract class UrbitAbstract extends CarrierModule
 
         return $this->display($this->name . '.php', 'shipping_sp_time.tpl');
     }
+
+
 
     /**
      * Hook for create checkout (send POST request to Urb-it API)
