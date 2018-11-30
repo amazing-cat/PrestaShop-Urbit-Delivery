@@ -239,15 +239,6 @@ abstract class UrbitAbstract extends CarrierModule
           }
     }
 
-    public function hookdisplayAdminOrder($params)
-    {
-        $orderinfo = new Order($params['id_order']);
-        $carrierinfo = new Carrier($orderinfo->id_carrier);
-          if ($carrierinfo->name =='urb-it delivery') {
-            return $this->display($this->name . '.php', 'admin_order.tpl');
-          }
-    }
-
     /**
      * update status service code if change status in list carrier (shipping->carrier)
      * @param Array $params

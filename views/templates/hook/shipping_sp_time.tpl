@@ -24,7 +24,7 @@
     $(function ($) {
         var radio_selected = 0;
         var ret_field_validate, ret_field_validate_ajax, del_is_gift, del_gift_receiver_phone, del_gift_receiver_phone_prefix, del_time, del_name,
-            del_first_name, del_last_name, del_street, del_zip_code, del_city, del_contact_phone, del_contact_phone_prefix,
+            del_first_name, del_last_name, del_street, del_zip_code, del_city, del_contact_phone,
             del_contact_mail, del_advise_message, del_type;
         var firstDeliveryMinutes = "00";
         var lastDeliveryMinutes = "00";
@@ -119,14 +119,14 @@
             }
         }
 
-        function phoneNumberValidation(del_contact_phone_prefix, del_contact_phone, error_empty_id, error_format_id) {
-            if (del_contact_phone == "" || del_contact_phone_prefix == "") {
+        function phoneNumberValidation(del_contact_phone, error_empty_id, error_format_id) {
+            if (del_contact_phone == "") {
                 emptyMessage(error_empty_id);
             } else {
-                var fullPhoneNumber = "+" + del_contact_phone_prefix + del_contact_phone;
+                var fullPhoneNumber = del_contact_phone;
 
                 {literal}
-                if (!fullPhoneNumber.match(/^\+[1-9]\d{6,}/)) {
+                if (!fullPhoneNumber.match(/^\d{6,}/)) {
                 {/literal}
                     phoneValidationErrorMessage(error_format_id);
                 }
@@ -145,7 +145,6 @@
                 { input_id: "#hp_urbit_del_city", error_id: "#del_city_error" },
                 { input_id: "#hp_urbit_del_postcode", error_id: "#del_zip_error" },
                 { input_id: "#contact_mobile_number", error_id: "#del_contact_mobile_number_error" },
-                { input_id: "#contact_mobile_number_prefix", error_id: "#del_contact_mobile_number_error" },
                 { input_id: "#contact_email_address", error_id: "#del_contact_email_address_error" }
             ];
 
@@ -172,15 +171,13 @@
 
             //validate phone numbers
             del_contact_phone = $("#contact_mobile_number").val();
-            del_contact_phone_prefix = $("#contact_mobile_number_prefix").val();
 
-            phoneNumberValidation(del_contact_phone_prefix, del_contact_phone, "#del_gift_phone_error", "#del_contact_mobile_number_error");
+            phoneNumberValidation(del_contact_phone, "#del_gift_phone_error", "#del_contact_mobile_number_error");
 
             if ($("#hp_urbit_check_box_1 i").hasClass('icon-check-square-o')) {
                 del_gift_receiver_phone = $("#hp_urbit_del_phone").val();
-                del_gift_receiver_phone_prefix = $("#hp_urbit_del_phone_prefix").val();
 
-                phoneNumberValidation(del_gift_receiver_phone_prefix, del_gift_receiver_phone, "#del_gift_phone_error", "#del_gift_phone_format_error")
+                phoneNumberValidation(del_gift_receiver_phone, "#del_gift_phone_error", "#del_gift_phone_format_error")
             }
 
             //validate zipcode
@@ -229,7 +226,6 @@
             del_zip_code = $("#hp_urbit_del_postcode").val();
             del_city = $("#hp_urbit_del_city").val();
             del_contact_phone = $("#contact_mobile_number").val();
-            del_contact_phone_prefix = $("#contact_mobile_number_prefix").val();
             del_contact_mail = $("#contact_email_address").val();
             del_advise_message = $("#hp_urbit_ship_extra_msg").val();
 
@@ -254,7 +250,6 @@
                     del_zip_code: del_zip_code,
                     del_city: del_city,
                     del_contact_phone: del_contact_phone,
-                    del_contact_phone_prefix: del_contact_phone_prefix,
                     del_contact_mail: del_contact_mail,
                     del_advise_message: del_advise_message,
                     del_type: del_type,
@@ -346,7 +341,6 @@
                             del_city: del_city,
                             del_zip_code: del_zip_code,
                             del_contact_phone: del_contact_phone,
-                            del_contact_phone_prefix: del_contact_phone_prefix,
                             del_contact_mail: del_contact_mail,
                             del_advise_message: del_advise_message,
                             del_type: del_type,
@@ -500,7 +494,6 @@
                 del_city = $("#hp_urbit_del_city").val();
                 del_zip_code = $("#hp_urbit_del_postcode").val();
                 del_contact_phone = $("#contact_mobile_number").val();
-                del_contact_phone_prefix = $("#contact_mobile_number_prefix").val();
                 del_contact_mail = $("#contact_email_address").val();
                 del_advise_message = $("#hp_urbit_ship_extra_msg").val();
 
@@ -521,7 +514,6 @@
                         del_city: del_city,
                         del_zip_code: del_zip_code,
                         del_contact_phone: del_contact_phone,
-                        del_contact_phone_prefix: del_contact_phone_prefix,
                         del_contact_mail: del_contact_mail,
                         del_advise_message: del_advise_message,
                         del_type: del_type,
@@ -857,22 +849,10 @@
                 </div>
                 <p class="hp_urbit_validation_error" id="del_gift_phone_error"></p>
                 <p class="hp_urbit_validation_error" id="del_gift_phone_format_error"></p>
-                <div class="row" id="recipient-phone-row">
-                    <div class="col-sm-3 col-xs-5 phone-prefix-wrapper">
-                        <div class="input-group">
-                            <span class="input-group-addon">+</span>
-                            <input type="text" class="form-control urbit_del_validate" id="hp_urbit_del_phone_prefix"
-                                   placeholder="{l s='Prefix' mod='urbit'}"
-                                   value="">
-                        </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-7 phone-wrapper">
-                        <div class="form-group">
-                            <input type="text" class="form-control urbit_del_validate" id="hp_urbit_del_phone"
-                                   placeholder="{l s='Recipient\'s mobile number' mod='urbit'}"
-                                   value="">
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <input type="text" class="form-control urbit_del_validate" id="hp_urbit_del_phone"
+                           placeholder="{l s='Recipient\'s mobile number' mod='urbit'}"
+                           value="">
                 </div>
             </div>
         </div>
@@ -880,22 +860,10 @@
             <h4 class="hp_urbit_ship_h4 mobile_title">{l s='How can we best get in touch with you?' mod='urbit'}</h4>
             <p class=" hp_urbit_validation_error" id="del_contact_mobile_number_error" style=""></p>
             <p class="hp_urbit_validation_error" id="del_contact_mobile_number_format_error"></p>
-            <div class="row">
-                <div class="col-sm-3 col-xs-5 phone-prefix-wrapper">
-                    <div class="input-group">
-                    <span class="input-group-addon">+</span>
-                        <input type="text" class="form-control urbit_del_validate" id="contact_mobile_number_prefix"
-                               placeholder="{l s='Prefix' mod='urbit'}"
-                               value="33" required>
-                    </div>
-                </div>
-                <div class="col-sm-9 col-xs-7 phone-wrapper">
-                    <div class="form-group">
-                        <input type="text" class="form-control urbit_del_validate" id="contact_mobile_number"
-                               placeholder="{l s='Phone number' mod='urbit'}"
-                               value="" required>
-                    </div>
-                </div>
+            <div class="form-group">
+                <input type="text" class="form-control urbit_del_validate" id="contact_mobile_number"
+                       placeholder="{l s='Phone number' mod='urbit'}"
+                       value="" required>
             </div>
 
             <p class="hp_urbit_validation_error" id="del_contact_email_address_error"></p>
@@ -925,11 +893,7 @@
         </a>
         et vous acceptez
         <br>
-<<<<<<< HEAD
-        la
-=======
          la
->>>>>>> master
         <a target="_blank" href="https://urb-it.com/privacy-policy">
             politique de confidentialité.
         </a>
@@ -1161,7 +1125,7 @@
     #urb_options_now, #sp_time, #hp_urbit_del_first_name,
     #hp_urbit_del_last_name, #hp_urbit_del_postcode,
     #hp_urbit_del_citym #hp_urbit_del_city, #hp_urbit_del_city,
-    #contact_mobile_number, #contact_mobile_number_prefix, #contact_email_address,
+    #contact_mobile_number, #contact_email_address,
     #hp_urbit_ship_extra_msg, #hp_urbit_del_street,
     #sp_time_date, #sp_time_hour, #sp_time_minute, #hp_urbit_del_phone, #hp_urbit_del_phone_prefix {
         background-color: #fff;
