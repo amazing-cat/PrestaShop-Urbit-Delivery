@@ -458,7 +458,9 @@
 
             var mobile = $("#contact_mobile_number").val();
 
-            if (!mobile.match(/^[+][0-9]/)) {
+            {literal}
+            if (!fullPhoneNumber.match(/^\d{6,}/)) {
+            {/literal}
                 $("#mobile_no_error").css("display", "block");
                 $("#mobile_no_error").html("{l s='Invalid Mobile Number' mod='urbit'}");
             } else {
@@ -849,7 +851,7 @@
                 </div>
                 <p class="hp_urbit_validation_error" id="del_gift_phone_error"></p>
                 <p class="hp_urbit_validation_error" id="del_gift_phone_format_error"></p>
-                <div class="form-group">
+                <div class="form-group" id="recipient-phone-row">
                     <input type="text" class="form-control urbit_del_validate" id="hp_urbit_del_phone"
                            placeholder="{l s='Recipient\'s mobile number' mod='urbit'}"
                            value="">
