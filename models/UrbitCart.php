@@ -7,6 +7,8 @@
  * @license Urbit
  */
 
+
+
 class UrbitCart
 {
     protected static $separator = '::';
@@ -370,13 +372,15 @@ class UrbitCart
 
     public static function updateResponseCode($responseCode, $urbitCartId)
     {
-        $ret = Db::getInstance()->execute(
-            'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `response_code` ="' . pSQL($responseCode)
-            . '" WHERE `id_urbit_order_cart`=' . (int)$urbitCartId
-        );
 
-        return $ret;
+        if($responseCode == UrbitShippingResponse::HTTP_STATUS_SUCCESS_PUT ) {
+
+          return self::deleteUrbitCart($urbitCartId);
+        }
+
+        return 1;
     }
+
 
     public static function updateCheckoutId($checkoutId, $cartId)
     {
@@ -393,6 +397,15 @@ class UrbitCart
         $ret = Db::getInstance()->execute(
             'UPDATE ' . _DB_PREFIX_ . 'urbit_order_cart SET `preparation_end_time` ="' . pSQL($preparationEndTime)
             . '" WHERE `id_cart`=' . (int)$cartId
+        );
+
+        return $ret;
+    }
+
+    public static function deleteUrbitCart($urbitCartId)
+    {
+      $ret = Db::getInstance()->execute(
+          'DELETE FROM ' . _DB_PREFIX_ . 'urbit_order_cart WHERE `id_urbit_order_cart`=' . (int)$urbitCartId
         );
 
         return $ret;

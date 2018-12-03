@@ -11,6 +11,7 @@ require_once(dirname(__FILE__) . '/../../classes/UrbitStoreApi.php');
 require_once(dirname(__FILE__) . '/../../classes/UrbitConfigurations.php');
 require_once(dirname(__FILE__) . '/../../models/UrbitCart.php');
 
+
 class UrbitShippingOptionsModuleFrontController extends FrontController
 {
     public function displayAjax()
@@ -63,7 +64,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
     protected function getDeliveryDateTimestamp($deliveryDate)
     {
         $date = DateTime::createFromFormat('Y-m-d\TH:i:sP', $deliveryDate, new DateTimeZone('UTC'));
-        $date->setTimezone(new DateTimeZone('CET'));
+        $date->setTimezone(new DateTimeZone('Europe/Paris'));
 
         return (int)$date->getTimestamp();
     }
@@ -82,7 +83,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
 
     protected function validateDelivery()
     {
-        $date = DateTime::createFromFormat('Y-m-d H:i:s', ltrim(Tools::getValue('del_time')), new DateTimeZone('CET'));
+        $date = DateTime::createFromFormat('Y-m-d H:i:s', ltrim(Tools::getValue('del_time')), new DateTimeZone('Europe/Paris'));
 
         //format order expected date to ISO standard
         $delivery_expected_at = $date->format('Y-m-d\TH:i:sP');
@@ -96,7 +97,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
             'del_zip_code' => Tools::getValue('del_zip_code'),
             'del_city' => Tools::getValue('del_city'),
             'del_contact_mail' => Tools::getValue('del_contact_mail'),
-            'del_contact_phone' => Tools::getValue('del_contact_phone'),
+            'del_contact_phone' => "+" . Tools::getValue('del_contact_phone_prefix') . Tools::getValue('del_contact_phone'),
             'del_advise_message' => Tools::getValue('del_advise_message'),
             'del_is_gift' => Tools::getValue('del_is_gift'),
             'del_gift_receiver_phone' => "+" . Tools::getValue('del_gift_receiver_phone_prefix') . Tools::getValue('del_gift_receiver_phone'),
@@ -112,7 +113,6 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
         $chosenDeliveryDateTimestamp =  $date->getTimestamp();
         //check delivery hours
         $ret_possible_delivery_hours = UrbitStoreApi::getDeliveryHours();
-
 
         $delivery_hours_items = $ret_possible_delivery_hours->hasError() ?
           array() : $ret_possible_delivery_hours->args->items;
@@ -164,7 +164,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
             'del_zip_code' => Tools::getValue('del_zip_code'),
             'del_city' => Tools::getValue('del_city'),
             'del_contact_mail' => Tools::getValue('del_contact_mail'),
-            'del_contact_phone' => Tools::getValue('del_contact_phone'),
+            'del_contact_phone' => "+" . Tools::getValue('del_contact_phone_prefix') . Tools::getValue('del_contact_phone'),
             'del_advise_message' => Tools::getValue('del_advise_message'),
             'del_is_gift' => Tools::getValue('del_is_gift'),
             'del_gift_receiver_phone' => "+" . Tools::getValue('del_gift_receiver_phone_prefix') . Tools::getValue('del_gift_receiver_phone'),
@@ -208,7 +208,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
             'del_time' => Tools::getValue('del_time'),
             'del_zip_code' => Tools::getValue('del_zip_code'),
             'del_contact_mail' => Tools::getValue('del_contact_mail'),
-            'del_contact_phone' => Tools::getValue('del_contact_phone'),
+            'del_contact_phone' => "+" . Tools::getValue('del_contact_phone_prefix') . Tools::getValue('del_contact_phone'),
             'del_city' => Tools::getValue('del_city'),
             'del_advise_message' => Tools::getValue('del_advise_message'),
             'del_is_gift' => Tools::getValue('del_is_gift'),
@@ -249,7 +249,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
 
         $DATETIME = 'Y-m-d\TH:i:sP';
         $utcTimeZone = new DateTimeZone('UTC');
-        $cetTimeZone = new DateTimeZone('CET');
+        $cetTimeZone = new DateTimeZone('Europe/Paris');
         $hours = array();
         $from_dates = array();
         $to_dates = array();
@@ -323,7 +323,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
      */
     protected function getNearestPossibleNowTimestamp()
     {
-        $nowTime = new DateTime(null, new DateTimeZone('CET'));
+        $nowTime = new DateTime(null, new DateTimeZone('Europe/Paris'));
 
         $deliveryTime = strtotime('+1 hour 30 minutes', $nowTime->getTimestamp());
         $preparationTime = Configuration::get('URBIT_ADMIN_AUTO_VALIDATION_TIME');
@@ -341,7 +341,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
         $nearestPossibleNowTime = $this->getNearestPossibleNowTimestamp();
         $nearestPossibleNowTime += $differentBetweenSpecificAndNow * 60;
 
-        $nextPossible = new DateTime(null, new DateTimeZone('CET'));
+        $nextPossible = new DateTime(null, new DateTimeZone('Europe/Paris'));
         $nextPossible->setTimestamp($nearestPossibleNowTime);
 
         return $nextPossible->format("Y-m-d H:i:s");
@@ -355,7 +355,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
     {
         $nowDeliveryTimestamp = $this->getNearestPossibleNowTimestamp();
 
-        $possibleNow = new DateTime(null, new DateTimeZone('CET'));
+        $possibleNow = new DateTime(null, new DateTimeZone('Europe/Paris'));
         $possibleNow->setTimestamp($nowDeliveryTimestamp);
 
         die($possibleNow->format("Y-m-d H:i:s"));
@@ -365,7 +365,7 @@ class UrbitShippingOptionsModuleFrontController extends FrontController
     protected function validateSelectOffTime()
     {
         $utcTimeZone = new DateTimeZone('UTC');
-        $cetTimeZone = new DateTimeZone('CET');
+        $cetTimeZone = new DateTimeZone('Europe/Paris');
         //hide the today if time is pass
         $nowTime = new DateTime(null, $cetTimeZone);
 

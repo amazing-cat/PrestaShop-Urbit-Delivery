@@ -461,20 +461,21 @@ p.num{
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="7">7</option>
-                            <option value="8">8</option>
+                            <option value="8">4</option>
                             <option value="9">9</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
                             <option value="13">13</option>
+                            <option value="14">14</option>
                             <option value="15">15</option>
                             <option value="16">16</option>
                             <option value="17">17</option>
-                            <option value="18">18</option>
+                            <option value="18">19</option>
                             <option value="19">19</option>
                             <option value="20">20</option>
                             <option value="21">21</option>
-                            <option value="22">22</option>
+                            <option value="22">23</option>
                             <option value="23">23</option>
                             <option value="24">24</option>
                             <option value="25">25</option>
@@ -482,7 +483,8 @@ p.num{
                             <option value="27">27</option>
                             <option value="28">28</option>
                             <option value="29">29</option>
-                            <option value="30">30</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>    
                         </select>
                     </div>
                     <div class="tab-2-input-area admin_mail">
@@ -498,6 +500,10 @@ p.num{
                             <span style="width: 34%;">{l s='Order status trigger for confirmation' mod='urbit'}</span>
                             <select id="URBIT_ADMIN_STATUS_TRIGGER" name="URBIT_ADMIN_STATUS_TRIGGER"></select>
                         </div>
+                        <div class="tab-2-input-area admin_order_preparation">
+                            <span style="width: 34%;">{l s='Order status trigger for delete' mod='urbit'}</span>
+                            <select id="URBIT_ADMIN_STATUS_CANCEL" name="URBIT_ADMIN_STATUS_CANCEL"></select>
+                        </div>
                     </div>
                     <div class="admin_fees_block">
                         <div class="tab-2-input-area admin_flat_fee">
@@ -512,10 +518,6 @@ p.num{
                             <span style="width: 34%;">{l s='Urb-it Flat Fee (GBP)' mod='urbit'}</span>
                             <input id="URBIT_ADMIN_FLAT_FEE_GBP" type="text" name="URBIT_ADMIN_FLAT_FEE_GBP">
                         </div>
-                    </div>
-                    <br>
-                    <div class="order-info">
-                        <p>Suivre votre Commande urb-it:  <button class="btn btn-info"><a href="https://retailer-portal.urb-it.com/" target="_blank">Cliquez sur ce bouton</a></button></p>
                     </div>
                 </fieldset>
                 <input type="button" value="Save" id="save_general_data" name="save_general_data" />
@@ -576,7 +578,7 @@ p.num{
                          <input type="text" name="URBIT_SEND_FAILIOR_REPORT" />
                      </div>
                 </fieldset>-->
-                
+
                 <input   type="hidden" value="validate" name="validate" id="validate" />
                 <input type="button" value="Save" name="save_credentials_data" id="save_credentials_data" />
             </form>
