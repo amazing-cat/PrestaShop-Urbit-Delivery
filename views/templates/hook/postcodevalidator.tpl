@@ -39,23 +39,6 @@
 
 <div class="urb-it-validator">
     <p>
-<<<<<<< HEAD
-        <img src="{$urbit_img_path|escape:'html':'utf-8'}urbit_post.jpg" style="width: 50px;">Can you purchase with
-        urb-it?
-    </p>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Enter Zipcode" name="enter_zipcocde" id="enter_zipcode"
-               value="" style="height: 32px;">
-        <span class="input-group-btn">
-			<button class="btn btn-primary" type="button" id="check_zipcode" name="zipcode">Check</button>
-    </div>
-    <div>
-        <div class="alert alert-success" role="alert" style="display: none;">
-            You can shop with Urb-it!
-        </div>
-        <div class="alert alert-danger" role="alert" style="display: none;">
-            Right now, you can not shop with Urb-it on that zip code.
-=======
         <img src="{$urbit_img_path|escape:'html':'utf-8'}urbit_post.jpg" style="width: 50px;">{l s='Can you purchase with urb-it?' mod='urbit'}
     </p>
     <div class="input-group">
@@ -70,7 +53,6 @@
         </div>
         <div class="alert alert-danger" role="alert" style="display: none;">
               {l s='Right now, you can not shop with Urb-it on that zip code.' mod='urbit'}
->>>>>>> master
         </div>
     </div>
 </div>
