@@ -226,8 +226,6 @@
 
             }
 
-<<<<<<< HEAD
-=======
 
 
             if (returnval.URBIT_ADMIN_STATUS_CANCEL_OPTIONS != false ) {
@@ -256,7 +254,6 @@
 
 
 
->>>>>>> master
             //  $("#URBIT_ENABLE_TEST_MOD").val(returnval.URBIT_ENABLE_TEST_MOD);
             if(returnval.URBIT_ENABLE_TEST_MOD){
                 $('#URBIT_ENABLE_TEST_MOD').prop('checked', true);
