@@ -14,6 +14,7 @@ include(dirname(__FILE__) . '/classes/api/UbitAPIWrapper.php');
 require_once(dirname(__FILE__).'../../../config/config.inc.php');
 require_once(dirname(__FILE__).'../../../init.php');
 
+header('Content-Type: application/json');
 
 $db = Db::getInstance();
 // ps_urbit_rate_service_code
