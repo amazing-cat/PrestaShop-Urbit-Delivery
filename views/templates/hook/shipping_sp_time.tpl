@@ -459,7 +459,7 @@
             var mobile = $("#contact_mobile_number").val();
 
             {literal}
-            if (!fullPhoneNumber.match(/^\d{6,}/)) {
+            if (!mobile.match(/^\d{6,}/)) {
             {/literal}
                 $("#mobile_no_error").css("display", "block");
                 $("#mobile_no_error").html("{l s='Invalid Mobile Number' mod='urbit'}");
