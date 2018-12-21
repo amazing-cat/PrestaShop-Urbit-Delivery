@@ -22,9 +22,9 @@
 	*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 	*  International Registered Trademark & Property of PrestaShop SA
 	*}
-	
+
 	{extends file="helpers/view/view.tpl"}
-	
+
 	{block name="override_tpl"}
 		<script type="text/javascript">
 		var admin_order_tab_link = "{$link->getAdminLink('AdminOrders')|addslashes}";
@@ -58,15 +58,15 @@
 									{else}
 										{$order->total_discounts_tax_incl}
 									{/if};
-	
+
 		var errorRefund = "{l s='Error. You cannot refund a negative amount.'}";
 		</script>
-	
+
 		{assign var="hook_invoice" value={hook h="displayInvoice" id_order=$order->id}}
 		{if ($hook_invoice)}
 		<div>{$hook_invoice}</div>
 		{/if}
-	
+
 		<div class="panel kpi-container">
 			<div class="row">
 				<div class="col-xs-6 col-sm-3 box-stats color3" >
@@ -309,7 +309,7 @@
 								{else}
 									<span class="label label-inactive"><i class="icon-remove"></i> {l s='Recycled packaging'}</span>
 								{/if}
-	
+
 								{if $order->gift}
 									<span class="label label-success"><i class="icon-check"></i> {l s='Gift wrapping'}</span>
 								{else}
@@ -617,7 +617,7 @@
 									</dl>
 								{/if}
 							</div>
-	
+
 							<div class="col-xs-6">
 								<div class="form-group hidden-print">
 									<a href="?tab=AdminCustomers&amp;id_customer={$customer->id}&amp;viewcustomer&amp;token={getAdminToken tab='AdminCustomers'}" class="btn btn-default btn-block">{l s='View full details...'}</a>
@@ -807,7 +807,7 @@
 								<div class="well">
 									<div class="row">
 										<div class="col-sm-6">
-											<a class="btn btn-default pull-right" href="?tab=AdminAddresses&amp;id_address={$addresses.invoice->id}&amp;addaddress&amp;realedit=1&amp;id_order={$order->id}&amp;address_type=2&amp;back={$smarty.server.REQUEST_URI|urlencode}&amp;token={getAdminToken tab='AdminAddresses'}">
+											<a class="btn btn-default pull-right" href="?tab=AdminUrbitDelivery&amp;id_urbit_order_cart={$urbit_order_cart.id_urbit_order_cart}&amp;updateurbit_order_cart&amp;back={$smarty.server.REQUEST_URI|urlencode}&amp;token={getAdminToken tab='AdminUrbitDelivery'}">
 												<i class="icon-pencil"></i>
 												{l s='Edit'}
 											</a>
@@ -842,7 +842,7 @@
 										</div>
 									</div>
 									<div class="message-body">
-	
+
 										<span class="message-date">&nbsp;<i class="icon-calendar"></i>
 											{dateFormat date=$message['date_add']} -
 										</span>
@@ -887,7 +887,7 @@
 										</p>
 									</div>
 								</div>
-	
+
 								<div class="form-group">
 									<label class="control-label col-lg-3">{l s='Display to customer?'}</label>
 									<div class="col-lg-9">
@@ -904,7 +904,7 @@
 										</span>
 									</div>
 								</div>
-	
+
 								<div class="form-group">
 									<label class="control-label col-lg-3">{l s='Message'}</label>
 									<div class="col-lg-9">
@@ -912,8 +912,8 @@
 										<p id="nbchars"></p>
 									</div>
 								</div>
-	
-	
+
+
 								<input type="hidden" name="id_order" value="{$order->id}" />
 								<input type="hidden" name="id_customer" value="{$order->id_customer}" />
 								<button type="submit" id="submitMessage" class="btn btn-primary pull-right" name="submitMessage">
@@ -938,7 +938,7 @@
 					<div style="display: none">
 						<input type="hidden" value="{$order->getWarehouseList()|implode}" id="warehouse_list" />
 					</div>
-	
+
 					<div class="panel">
 						<div class="panel-heading">
 							<i class="icon-shopping-cart"></i>
@@ -950,7 +950,7 @@
 							<a href="#" class="partial_refund"><img src="../img/admin/add.gif" alt="{l s='Process a partial refund'}" /> {l s='Process a partial refund'}</a>
 						-->
 						</div>
-	
+
 						{capture "TaxMethod"}
 							{if ($order->getTaxCalculationMethod() == $smarty.const.PS_TAX_EXC)}
 								{l s='tax excluded.'}
@@ -1023,7 +1023,7 @@
 								</tbody>
 							</table>
 						</div>
-	
+
 						{if $can_edit}
 						<div class="row-margin-bottom row-margin-top order_action">
 						{if !$order->hasBeenDelivered()}
@@ -1285,7 +1285,7 @@
 				</form>
 			</div>
 		</div>
-	
+
 		<div class="row">
 			<div class="col-lg-12">
 				<!-- Sources block -->
@@ -1307,7 +1307,7 @@
 					</ul>
 				</div>
 				{/if}
-	
+
 				<!-- linked orders block -->
 				{if count($order->getBrother()) > 0}
 				<div class="panel">
@@ -1358,15 +1358,15 @@
 				{/if}
 			</div>
 		</div>
-	
+
 		<script type="text/javascript">
 			var geocoder = new google.maps.Geocoder();
 			var delivery_map, invoice_map;
-	
+
 			$(document).ready(function()
 			{
 				$(".textarea-autosize").autosize();
-	
+
 				geocoder.geocode({
 					address: '{$addresses.delivery->address1|@addcslashes:'\''},{$addresses.delivery->postcode|@addcslashes:'\''},{$addresses.delivery->city|@addcslashes:'\''}{if isset($addresses.deliveryState->name) && $addresses.delivery->id_state},{$addresses.deliveryState->name|@addcslashes:'\''}{/if},{$addresses.delivery->country|@addcslashes:'\''}'
 					}, function(results, status) {
@@ -1387,7 +1387,7 @@
 						});
 					}
 				});
-	
+
 				geocoder.geocode({
 					address: '{$addresses.invoice->address1|@addcslashes:'\''},{$addresses.invoice->postcode|@addcslashes:'\''},{$addresses.invoice->city|@addcslashes:'\''}{if isset($addresses.deliveryState->name) && $addresses.invoice->id_state},{$addresses.deliveryState->name|@addcslashes:'\''}{/if},{$addresses.invoice->country|@addcslashes:'\''}'
 					}, function(results, status) {
@@ -1408,7 +1408,7 @@
 						});
 					}
 				});
-	
+
 				$('.datepicker').datetimepicker({
 					prevText: '',
 					nextText: '',
@@ -1427,7 +1427,7 @@
 					minuteText: '{l s='Minute' js=1}'
 				});
 			});
-	
+
 			// Fix wrong maps center when map is hidden
 			$('#tabAddresses').click(function(){
 			if (delivery_map) {
@@ -1437,7 +1437,7 @@
 				delivery_map.setZoom(x);
 				delivery_map.setCenter(c);
 			}
-		  
+
 			if (invoice_map) {
 				x = invoice_map.getZoom();
 				c = invoice_map.getCenter();
@@ -1447,6 +1447,5 @@
 			  }
 			});
 		</script>
-	
+
 	{/block}
-	

@@ -7,8 +7,66 @@
  * @license Urbit
  */
 
-class UrbitCart
+class UrbitCart extends ObjectModel
 {
+    public $id_urbit_order_cart;
+    public $delivery_first_name;
+    public $delivery_last_name;
+    public $delivery_street;
+    public $delivery_zip_code;
+    public $delivery_city;
+    public $delivery_contact_phone;
+    public $delivery_is_gift;
+    public $delivery_gift_receiver_phone;
+    public $delivery_time;
+
+    public static $definition = array(
+        'table' => 'urbit_order_cart',
+        'primary' => 'id_urbit_order_cart',
+        'multilang' => false,
+        'fields' => array(
+            'id_urbit_order_cart' => array(
+                'type' => self::TYPE_INT,
+                'validate' => 'isUnsignedId',
+                'required' => true,
+            ),
+            'delivery_first_name' => array(
+                'type' => self::TYPE_STRING,
+                'validate' => 'isName',
+            ),
+            'delivery_last_name' => array(
+                'type' => self::TYPE_STRING,
+                'validate' => 'isName',
+            ),
+            'delivery_street' => array(
+                'type' => self::TYPE_STRING,
+                'validate' => 'isAddress',
+            ),
+            'delivery_zip_code' => array(
+                'type' => self::TYPE_STRING,
+                'validate' => 'isPostCode',
+            ),
+            'delivery_city' => array(
+                'type' => self::TYPE_STRING,
+                'validate' => 'isCityName',
+            ),
+            'delivery_contact_phone' => array(
+                'type' => self::TYPE_STRING,
+            ),
+            'delivery_is_gift' => array(
+                'type' => self::TYPE_BOOL,
+            ),
+            'delivery_gift_receiver_phone' => array(
+                'type' => self::TYPE_STRING,
+            ),
+            'delivery_time' => array(
+                'type' => self::TYPE_DATE,
+                'validate' => 'isDate',
+                'copy_post' => false,
+            ),
+        ),
+    );
+
     protected static $separator = '::';
 
     /**
