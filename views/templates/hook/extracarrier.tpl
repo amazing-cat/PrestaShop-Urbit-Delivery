@@ -1,9 +1,9 @@
 {**
  * Point of sale for Pretashop
- *
+ * 
  * @author    Urb-it
  * @copyright Urb-it
- * @license
+ * @license 
  *}
 
 <script type="text/javascript">
@@ -28,7 +28,7 @@
 
     $(document).ready(function() {
 	addBreakInDeliveryName();
-
+        
         // delivery times and partly costs
 	new ExtraCarrier({
             urbitDelays: {/literal}{$urbit_delays|escape:'htmlall':'UTF-8'}{literal},
@@ -41,7 +41,7 @@
             classNamePartlyCosts: '.urbit_partly_cost',
             classPrice: '.delivery_option_price'
         }).renderMoreInformation();
-
+            
 	// object which handdle rendering extra cover form
 	extraCoverForm = new ExtraCoverForm({
 	    ajaxUrl: ajaxExtraCoverUrl,
@@ -71,3 +71,4 @@
     });
     {/literal}
 </script>
+

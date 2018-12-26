@@ -225,19 +225,6 @@ abstract class UrbitAbstract extends CarrierModule
 
         return $this->display($this->name . '.php', 'backofficeheader.tpl');
     }
-    
-    /**
-     * hook into Admin Order
-     * @return assign template
-     */
-    public function hookdisplayAdminOrder($params)
-    {
-        $orderinfo = new Order($params['id_order']);
-        $carrierinfo = new Carrier($orderinfo->id_carrier);
-          if ($carrierinfo->name =='urb-it delivery') {
-            return $this->display($this->name . '.php', 'admin_order.tpl');
-          }
-    }
 
     /**
      * update status service code if change status in list carrier (shipping->carrier)
@@ -1239,12 +1226,22 @@ abstract class UrbitAbstract extends CarrierModule
     public function checkOrdersStatusForUpdateCheckout($orderId, $orderStatusId)
     {
         $configOrderTriggerValue = Configuration::get('URBIT_ADMIN_STATUS_TRIGGER');
+        $configOrderCancelValue = Configuration::get('URBIT_ADMIN_STATUS_CANCEL');
 
         if ($configOrderTriggerValue && (int)$configOrderTriggerValue == $orderStatusId) {
             $cart = UrbitCart::getUrbitCartByOrderId($orderId);
 
             if (!empty($cart) && $cart[0]['is_send'] == "false") {
                 $this->sendUpdateCheckout($cart[0]['id_urbit_order_cart']);
+            }
+        }
+
+
+        if ($configOrderCancelValue && (int)$configOrderCancelValue == $orderStatusId) {
+            $cart = UrbitCart::getUrbitCartByOrderId($orderId);
+
+            if (!empty($cart)) {
+                UrbitCart::deleteUrbitCart($cart[0]['id_urbit_order_cart']);
             }
         }
     }
@@ -1265,7 +1262,7 @@ abstract class UrbitAbstract extends CarrierModule
             }
 
             //$deliveryDate = DateTime::createFromFormat('Y-m-d H:i:s', $cart[0]['delivery_time']);
-            $deliveryDate = new DateTime($cart[0]['delivery_time'], new DateTimeZone("CET"));
+            $deliveryDate = new DateTime($cart[0]['delivery_time'], new DateTimeZone("Europe/Paris"));
             $deliveryDate->setTimezone(new DateTimeZone('UTC'));
             $formattedDeliveryDate = $deliveryDate->format('Y-m-d\TH:i:sP');
 

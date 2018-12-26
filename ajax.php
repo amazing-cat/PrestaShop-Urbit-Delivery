@@ -294,6 +294,7 @@ if ($test_api_call) {
     $form_data['URBIT_ADMIN_EMAIL'] = Configuration::get('URBIT_ADMIN_EMAIL');
     $form_data['URBIT_ADMIN_AUTO_VALIDATION_TIME'] = Configuration::get('URBIT_ADMIN_AUTO_VALIDATION_TIME');
     $form_data['URBIT_ADMIN_STATUS_TRIGGER'] = Configuration::get('URBIT_ADMIN_STATUS_TRIGGER');
+    $form_data['URBIT_ADMIN_STATUS_CANCEL'] = Configuration::get('URBIT_ADMIN_STATUS_CANCEL');
     $form_data['URBIT_ADMIN_FLAT_FEE_EUR'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_EUR');
     $form_data['URBIT_ADMIN_FLAT_FEE_SEK'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_SEK');
     $form_data['URBIT_ADMIN_FLAT_FEE_GBP'] = Configuration::get('URBIT_ADMIN_FLAT_FEE_GBP');
@@ -301,6 +302,8 @@ if ($test_api_call) {
     $form_data['URBIT_ADMIN_STATUS_TRIGGER_OPTIONS'] = OrderState::getOrderStates(
         (int)Context::getContext()->language->id
     );
+
+    $form_data['URBIT_ADMIN_STATUS_CANCEL_OPTIONS'] = $form_data['URBIT_ADMIN_STATUS_TRIGGER_OPTIONS'];
 
     echo Tools::jsonEncode($form_data);
 }
