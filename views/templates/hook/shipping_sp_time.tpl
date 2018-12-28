@@ -194,7 +194,7 @@
             return validate_error !== 1;
         }
 
-        function fieldValidationAjax() {
+        function fieldValidationAjax(successCallback = null, errorCallback = null) {
             del_is_gift = 0;
             del_gift_receiver_phone = "";
             del_gift_receiver_phone_prefix = "";
@@ -265,7 +265,7 @@
 
                     var validate_delivery = JSON.parse(data);
 
-                      if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
+                    if (validate_delivery.possible_hours == true && validate_delivery.ajaxCheckValidateDelivery == "true") {
                         validate_error = 0;
 
                         addressValidationError(false);
@@ -292,10 +292,18 @@
                             getdeliveryDates();
                         }
                     }
+
+                    if (successCallback) {
+                        successCallback(validate_delivery);
+                    }
                 },
                 error: function (errorThrown) {
                     if (window.__fieldValidationAjax_Flag !== local__fieldValidationAjax_Flag) {
                         return;
+                    }
+
+                    if (errorCallback) {
+                        errorCallback(errorThrown);
                     }
 
                     console.log(errorThrown);
@@ -435,25 +443,63 @@
             }
         });
 
-        $('[name=processCarrier]').click(function (e) {
-
+        var cartUpdated = false;
+        var $submitButton = $('[name=processCarrier]');
+        $submitButton.click(function (e) {
             radio_selected = $("input[type='radio']:checked");
-
-            if (urb_carrier_id == radio_selected.val()) {
+            if (urb_carrier_id == radio_selected.val() && !cartUpdated) {
+                e.preventDefault();
+                $('#hp_urbit_submit_error').hide();
 
                 if (fieldValidation()) {
-                    fieldValidationAjax();
-                }
+                    fieldValidationAjax(function (data) {
+                        if (!data.error_code) {
+                            updateCart(function (data) {
+                                data = JSON.parse(data);
+                                if (data.success) {
+                                    cartUpdated = true;
+                                    $submitButton.click();
+                                } else {
+                                    // updateCart - validation error.
+                                    var msg = "Can't update cart (" + data.error_code + ": " + data.error_msg + ")";
+                                    $('#hp_urbit_submit_error p').text(msg);
+                                    $('#hp_urbit_submit_error').show();
+                                }
+                            }, function (error) {
+                                // updateCart - request error.
+                                var msg = "Can't update cart";
+                                if (error.status !== undefined && error.statusText !== undefined) {
+                                    msg += " (" + error.status + ": " + error.statusText + ")";
+                                }
 
-                if (validate_error == 1) {
-                    e.preventDefault();
-                }
+                                $('#hp_urbit_submit_error p').text(msg);
+                                $('#hp_urbit_submit_error').show();
+                            });
+                        } else {
+                            // fieldValidationAjax - validation error.
+                            var msg = "Validation error";
+                            if (error.error_code !== undefined && error.error_message !== undefined) {
+                                msg += " (" + error.error_code + ": " + error.error_message + ")";
+                            }
 
-                updateCart();
+                            $('#hp_urbit_submit_error p').text(msg);
+                            $('#hp_urbit_submit_error').show();
+                        }
+                    }, function (error) {
+                        // fieldValidationAjax - request error.
+                        var msg = "Validation error";
+                        if (error.status !== undefined && error.statusText !== undefined) {
+                            msg += " (" + error.status + ": " + error.statusText + ")";
+                        }
+
+                        $('#hp_urbit_submit_error p').text(msg);
+                        $('#hp_urbit_submit_error').show();
+                    });
+                }
             }
         });
 
-        function updateCart() {
+        function updateCart(successCallback = null, errorCallback = null) {
             radio_selected = $("input[type='radio']:checked");
 
             var mobile = $("#contact_mobile_number").val();
@@ -523,12 +569,15 @@
                         fc: 'module',
                         controller: 'ShippingOptions'
                     },
-
                     success: function (data) {
-
+                        if (successCallback) {
+                            successCallback(data);
+                        }
                     },
                     error: function (errorThrown) {
-
+                        if (errorCallback) {
+                            errorCallback(errorThrown);
+                        }
                     }
                 });
             }
@@ -900,9 +949,13 @@
             politique de confidentialité.
         </a>
     </p>
+    <div class="hp_urbit_validation_error_message" id="hp_urbit_submit_error">
+        <p></p>
+    </div>
 </div>
 
 <style>
+    #hp_urbit_submit_error,
     #hp_urbit_address_validation_error {
         display: none;
         color: #F13340;
