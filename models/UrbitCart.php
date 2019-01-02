@@ -19,6 +19,7 @@ class UrbitCart extends ObjectModel
     public $delivery_is_gift;
     public $delivery_gift_receiver_phone;
     public $delivery_time;
+    public $is_send;
 
     public static $definition = array(
         'table' => 'urbit_order_cart',
@@ -63,6 +64,9 @@ class UrbitCart extends ObjectModel
                 'type' => self::TYPE_DATE,
                 'validate' => 'isDate',
                 'copy_post' => false,
+            ),
+            'is_send' => array(
+                'type' => self::TYPE_BOOL,
             ),
         ),
     );
@@ -371,7 +375,7 @@ class UrbitCart extends ObjectModel
         return Db::getInstance()->executeS(
             'SELECT * FROM `' .
              _DB_PREFIX_ .
-             'urbit_order_cart` WHERE `is_send`="false"'
+             'urbit_order_cart` WHERE `is_send`="false" OR `is_send`="0"'
         );
     }
 
@@ -431,7 +435,7 @@ class UrbitCart extends ObjectModel
 
         if($responseCode == UrbitShippingResponse::HTTP_STATUS_SUCCESS_PUT ) {
 
-          return self::deleteUrbitCart($urbitCartId);
+          //return self::deleteUrbitCart($urbitCartId);
         }
 
         return 1;

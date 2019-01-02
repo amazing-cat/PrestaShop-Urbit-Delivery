@@ -130,6 +130,11 @@ class AdminUrbitDeliveryController extends ModuleAdminController
                     'col' => '4',
                     'required' => true,
                 ),
+                array(
+                    'type' => 'hidden',
+                    'name' => 'is_send',
+                    'value' => 'false',
+                ),
             ),
             'submit' => array(
                 'title' => $this->l('Save'),
@@ -205,6 +210,24 @@ class AdminUrbitDeliveryController extends ModuleAdminController
         return $is_address_valid && $is_time_valid;
     }
 
+    protected function formatApiErrorMessage($response) {
+        $args = $response->args;
+        $errors = $args->errors->errors;
+        if (!is_array($errors)) {
+            $errors = array($errors);
+        }
+
+        $errors = array_map(function ($error) {
+            $error_message = isset($error->message) ? $error->message : '';
+            return isset($error->reason) && isset($error->reason->description)
+                ? "$error_message ({$error->reason->description})"
+                : $error_message;
+        }, $errors);
+
+        array_unshift($errors, $args->message);
+        return implode("<br/>\n", $errors);
+    }
+
     public function processSave()
     {
         if (Tools::getValue('submitFormAjax')) {
@@ -217,8 +240,21 @@ class AdminUrbitDeliveryController extends ModuleAdminController
         }
 
         if (empty($this->errors)) {
-            return parent::processSave();
+            $cart = parent::processSave();
+
+            // Send changes to the Urbit API.
+            $urbit = Module::getInstanceByName('urbit');
+            $response = $urbit->sendUpdateCheckout($cart->id_urbit_order_cart);
+            if ($response->hasError()) {
+                $this->errors[] = $this->formatApiErrorMessage($response);
+                $this->redirect_after = false;
+                $this->display = 'edit';
+                return false;
+            }
+
+            return $cart;
         } else {
+            $this->redirect_after = false;
             $this->display = 'edit';
             return false;
         }
