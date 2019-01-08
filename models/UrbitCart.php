@@ -432,10 +432,8 @@ class UrbitCart extends ObjectModel
 
     public static function updateResponseCode($responseCode, $urbitCartId)
     {
-
-        if($responseCode == UrbitShippingResponse::HTTP_STATUS_SUCCESS_PUT ) {
-
-          //return self::deleteUrbitCart($urbitCartId);
+        if ($responseCode == UrbitShippingResponse::HTTP_STATUS_SUCCESS_PUT) {
+            return self::deleteUrbitCart($urbitCartId);
         }
 
         return 1;

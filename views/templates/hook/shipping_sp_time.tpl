@@ -194,7 +194,10 @@
             return validate_error !== 1;
         }
 
-        function fieldValidationAjax(successCallback = null, errorCallback = null) {
+        function fieldValidationAjax(successCallback, errorCallback) {
+            successCallback = successCallback || null;
+            errorCallback = errorCallback || null;
+
             del_is_gift = 0;
             del_gift_receiver_phone = "";
             del_gift_receiver_phone_prefix = "";
@@ -499,7 +502,10 @@
             }
         });
 
-        function updateCart(successCallback = null, errorCallback = null) {
+        function updateCart(successCallback, errorCallback) {
+            successCallback = successCallback || null;
+            errorCallback = errorCallback || null;
+
             radio_selected = $("input[type='radio']:checked");
 
             var mobile = $("#contact_mobile_number").val();
