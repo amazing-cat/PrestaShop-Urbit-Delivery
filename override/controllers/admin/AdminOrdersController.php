@@ -31,6 +31,7 @@ EOF;
 
         $this->context->smarty->assign(array(
             'urbit_address' => $urbit_address,
+            'urbit_order_cart' => $cart,
         ));
 
         return parent::renderView();
