@@ -26,7 +26,7 @@ class Urbit extends UrbitAbstract
     public function __construct()
     {
         $this->name = 'urbit';
-        $this->version = '1.1.7.4';
+        $this->version = '1.1.7.5';
 
         $this->author = 'urb-it';
         $this->tab = 'shipping_logistics';
