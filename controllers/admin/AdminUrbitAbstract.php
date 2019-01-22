@@ -617,5 +617,85 @@ class AdminUrbitAbstract extends ModuleAdminController
         exit();
     }
 
+    /**
+     * Returns HTML content for the Urbit order tab.
+     */
+    public function ajaxProcessGetOrderInfo()
+    {
+        $order = new Order(Tools::getValue('id_order'));
+        if (!Validate::isLoadedObject($order)) {
+            $this->errors[] = Tools::displayError('The order cannot be found within your database.');
+        }
 
+        $carts = UrbitCart::getUrbitCartByOrderId($order->id);
+        $cart = reset($carts);
+        $address = new Address($order->id_address_delivery, $this->context->language->id);
+        $phone = $cart['delivery_is_gift']
+            ? $cart['delivery_gift_receiver_phone']
+            : $cart['delivery_contact_phone'];
+        $date = date_parse($cart['delivery_time']);
+        $id_cart = $cart['id_urbit_order_cart'];
+        $token = Tools::getAdminTokenLite('AdminUrbitDelivery');
+        $editUrl = "?controller=AdminUrbitDelivery&id_urbit_order_cart=$id_cart&updateurbit_order_cart&token=$token";
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $back = urlencode($_SERVER['HTTP_REFERER']);
+            $editUrl .= "&back=$back";
+        }
+
+        $token = Tools::getAdminTokenLite('AdminUrbit');
+        $logUrl = "?controller=AdminUrbit&action=getorderapilog&ajax=1&id_order=$order->id&token=$token";
+
+        echo <<<EOF
+<a class="btn btn-default pull-right" href="$editUrl">
+    <i class="icon-pencil"></i>
+    Edit
+</a>
+
+{$cart['delivery_first_name']} {$cart['delivery_last_name']}<br/>
+{$cart['delivery_street']}<br/>
+{$cart['delivery_zip_code']} {$cart['delivery_city']}<br/>
+{$address->country}<br/>
+{$phone}<br/>
+<br/>
+<br/>
+Time: {$date['hour']}h {$date['minute']}<br/>
+Date: {$date['year']}/{$date['month']}/{$date['day']}<br/>
+<br/>
+<br/>
+
+<a class="btn btn-default" href="$logUrl">
+    <i class="icon-file-text"></i>
+    Download API log
+</a>
+EOF;
+        exit;
+    }
+
+    public function ajaxProcessGetOrderApiLog()
+    {
+        $order = new Order(Tools::getValue('id_order'));
+        if (!Validate::isLoadedObject($order)) {
+            $this->errors[] = Tools::displayError('The order cannot be found within your database.');
+        }
+
+        $id_cart = (int)$order->id_cart;
+        $prefix = _DB_PREFIX_;
+        $query = <<<EOF
+SELECT timestamp, type, payload
+FROM {$prefix}urbit_api_log
+WHERE cart_id = $id_cart
+ORDER BY id
+EOF;
+        $log = Db::getInstance()->executeS($query);
+        $result = '';
+        foreach ($log as $entry) {
+            $result .= "{$entry['timestamp']} {$entry['type']} {$entry['payload']}\n";
+        }
+
+        header('Content-Disposition: attachment; filename="log"');
+        header('Content-Length: ' . strlen($result));
+        header('Content-Type: text/plain;');
+        echo $result;
+        exit;
+    }
 }

@@ -73,17 +73,6 @@ class Urbit extends UrbitAbstract
     {
         $installer = new UrbitInstaller($this);
 
-        $dir = '/override/controllers/admin/templates/orders/helpers/view/';
-        $srcDir = dirname(__FILE__) . $dir;
-        $destDir = _PS_ROOT_DIR_ . $dir;
-
-        if(!file_exists($destDir) && !is_dir($destDir)){
-            mkdir($destDir, 0777, true);
-        }
-
-        $fileData = file_get_contents($srcDir . 'view.tpl');
-        file_put_contents($destDir . 'view.tpl', $fileData);
-
         return parent::install() && $installer->install()
             && $this->installTab('AdminOrders', 'AdminUrbitDelivery', 'Urb-it deliveries');
     }

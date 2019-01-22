@@ -8,5 +8,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script type="text/javascript">
-	var st = {$st|escape:'htmlall':'UTF-8'};
+	{if isset($st)}var st = {$st};{/if}
+	{if isset($urbit_token)}var urbitToken = '{$urbit_token}';{/if}
 </script>
