@@ -223,6 +223,13 @@ abstract class UrbitAbstract extends CarrierModule
             array('urbit_img_path'  => $this->_path.'views/img/',)
         );
 
+        if (Tools::getValue('controller') === 'AdminOrders') {
+            $urbit_token = Tools::getAdminTokenLite('AdminUrbit');
+            $this->context->smarty->assign('urbit_token', $urbit_token, true);
+
+            $this->context->controller->addJS($this->_path . 'views/js/orders.js');
+        }
+
         return $this->display($this->name . '.php', 'backofficeheader.tpl');
     }
 
