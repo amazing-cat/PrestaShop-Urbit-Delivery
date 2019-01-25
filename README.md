@@ -12,8 +12,6 @@
   - [ Checking just received order ](#checking-just-received-order)
 - [ Support ](#support)
 - [ Contributing ](#contributing)
-- [ Credits ](#credits)
-
 
 ## Installation
 
