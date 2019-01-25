@@ -1238,8 +1238,8 @@ abstract class UrbitAbstract extends CarrierModule
         if ($configOrderTriggerValue && (int)$configOrderTriggerValue == $orderStatusId) {
             $cart = UrbitCart::getUrbitCartByOrderId($orderId);
 
-            if (!empty($cart) && $cart[0]['is_send'] == "false") {
-                $this->sendUpdateCheckout($cart[0]['id_urbit_order_cart']);
+            if (!empty($cart) && $cart['is_send'] == "false") {
+                $this->sendUpdateCheckout($cart['id_urbit_order_cart']);
             }
         }
 
@@ -1248,7 +1248,7 @@ abstract class UrbitAbstract extends CarrierModule
             $cart = UrbitCart::getUrbitCartByOrderId($orderId);
 
             if (!empty($cart)) {
-                UrbitCart::deleteUrbitCart($cart[0]['id_urbit_order_cart']);
+                UrbitCart::deleteUrbitCart($cart['id_urbit_order_cart']);
             }
         }
     }
