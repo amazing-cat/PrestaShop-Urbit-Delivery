@@ -185,12 +185,8 @@ You can see Urb-it delivery information in **URB-IT TIME AND ADDRESS** tab.
 If you have any issues with this extension, contact us at support@urbit.com
 
 ## Contributing 
-
 Any contribution is highly appreciated. The best way to contribute code is to open a pull request on GitHub.
 
-## Credits 
-
-2019 Urb-it
 
 
 
